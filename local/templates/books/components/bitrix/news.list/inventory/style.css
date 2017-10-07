@@ -1,0 +1,35 @@
+div.inv-list {
+	word-wrap: break-word;
+}
+
+div.inv-list th {
+	font-size: 80%;
+	text-align: center;
+	vertical-align: middle;
+	display: table-cell;
+}
+
+div.inv-list td {
+	font-size: 90%;
+}
+
+div.inv-list .book-name {
+}
+
+div.inv-list .book-author, div.inv-list .book-izd, div.inv-list .book-class, div.inv-list .book-umk {
+	padding-left: 40px;
+	font-size: 90%;
+}
+
+div.inv-list .find-book-name {
+	font-size: 90%;
+}
+
+div.inv-list .find-book-data {
+	font-size: 85%;
+	padding-left: 50px;
+}
+
+div.inv-list .form-group {
+	padding-top: 10px;
+}

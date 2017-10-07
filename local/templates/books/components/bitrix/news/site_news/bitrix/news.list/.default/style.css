@@ -1,0 +1,21 @@
+div.news-list {word-wrap: break-word;}
+
+div.news-list .news-text {text-align: justify;}
+
+div.news-list .news-date {
+	font-size: 90%;
+}
+
+div.news-list .news-delim {padding-bottom: 15px; margin-top: 10px;}
+
+div.news-list h4 {
+	margin: 0;
+}
+
+div.news-list .news-title {
+	margin-bottom: 10px;
+}
+
+div.news-list hr {
+	margin: 12px 0 24px 0;
+}

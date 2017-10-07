@@ -1,0 +1,48 @@
+#book_show {
+	font-size: 90%;
+}
+
+#book_show .row {
+	padding-bottom: 10px;
+}
+
+#book_show .col-xs-3, #book_show .col-xs-9 {
+	padding-left: 0;
+	padding-right: 10px;
+}
+
+#book_show .control-label {
+	text-align: right;
+	font-weight: bold;
+}
+
+div.books-list .row-book {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+div.books-list .row-book:hover {
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+div.books-list .row-book:active {
+	box-shadow: 0 0 5px rgba(0,0,0,0.8);
+}
+
+div.books-list .book-info {
+	cursor: pointer;
+}
+
+div.books-list .book-name {
+	font-size: 105%;
+	padding-bottom: 5px;
+}
+
+div.books-list .book-info {
+	font-size: 90%;
+}
+
+div.books-list .books-counter {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}

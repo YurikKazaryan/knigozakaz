@@ -1,0 +1,16 @@
+#left-menu a {
+	color: #336699;
+}
+
+#left-menu li.selected a {
+	color: #1f69cf;
+	font-weight: bold;
+}
+
+#left-menu a {
+	padding: 5px 5px;
+}
+
+#left-menu hr {
+	margin: 5px 0;
+}

@@ -1,0 +1,55 @@
+@font-face {
+    font-family: 'MyriadPro';
+    font-style: normal;
+    font-weight: normal;
+    src: local(MyriadPro), url(MyriadPro-Regular.ttf), url(MyriadPro-Regular.woff);
+}
+
+@font-face {
+    font-family: 'MyriadPro';
+    font-style: normal;
+    font-weight: bold;
+    src: local(MyriadPro), url(MyriadPro-Bold.ttf), url(MyriadPro-Bold.woff);
+}
+
+@font-face {
+    font-family: 'MyriadPro';
+    font-style: italic;
+    font-weight: bold;
+    src: local(MyriadPro), url(MyriadPro-BoldIt.ttf), url(MyriadPro-BoldIt.woff);
+}
+
+@font-face {
+    font-family: 'MyriadPro';
+    font-style: italic;
+    font-weight: normal;
+    src: local(MyriadPro), url(MyriadPro-It.ttf), url(MyriadPro-It.woff);
+}
+
+@font-face {
+    font-family: 'MyriadProC';
+    font-style: normal;
+    font-weight: normal;
+    src: local(MyriadProC), url(MyriadPro-Cond.ttf), url(MyriadPro-Cond.woff);
+}
+
+@font-face {
+    font-family: 'MyriadProC';
+    font-style: normal;
+    font-weight: bold;
+    src: local(MyriadProC), url(MyriadPro-BoldCond.ttf), url(MyriadPro-BoldCond.woff);
+}
+
+@font-face {
+    font-family: 'MyriadProC';
+    font-style: italic;
+    font-weight: bold;
+    src: local(MyriadProC), url(MyriadPro-BoldCondIt.ttf), url(MyriadPro-BoldCondIt.woff);
+}
+
+@font-face {
+    font-family: 'MyriadProC';
+    font-style: italic;
+    font-weight: normal;
+    src: local(MyriadProC), url(MyriadPro-CondIt.ttf), url(MyriadPro-CondIt.woff);
+}

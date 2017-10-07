@@ -1,0 +1,72 @@
+div.orders-list { word-wrap: break-word; }
+
+div.orders-list th { text-align: center; font-size: 85%; }
+
+div.orders-list td { font-size: 85%; }
+
+div.orders-list .order-sum-w { width: 95px; }
+div.orders-list .order-sum { text-align: right; }
+
+div.orders-list .order-stat-w { width: 120px; }
+div.orders-list .order-stat {
+	text-align: center;
+	font-size: 75%;
+}
+
+div.orders-list .order-stat-color {
+	font-size: 1%;
+	width: 5px;
+}
+
+div.orders-list .order-cmd-w { width: 80px; }
+div.orders-list .order-cmd { text-align: center; }
+div.orders-list .order-cmd a { color: #fff; }
+
+div.orders-list .order-check-w { width: 30px; }
+
+div.orders-list .order-date-w { width: 90px; }
+div.orders-list .order-date { text-align: center; }
+
+div.orders-list .istochnik { width: 125px; text-align: center; font-size: 80%;}
+
+div.orders-list .dpost { text-align: center; }
+
+div.orders-list .info { text-align: center; color: #1F69CF; cursor: pointer; }
+
+div.orders-list .news-item td { vertical-align: middle!important; }
+
+div.orders-list .panel a { color: #fff; }
+
+div.orders-list .error { color: #f00; font-size: 80%; font-weight: bold; }
+
+div.orders-list .title {font-size: 85%;}
+
+div.orders-list .filter-line { padding-top: 5px; }
+
+div.orders-list .edit-panel { padding-top: 150px; }
+
+div.orders-list .rem-flag { color: #f00; font-size: 125%; }
+
+div.orders-list .filter-col {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+div.orders-list .filter-group {
+	width: 100%;
+}
+
+div.orders-list .filter-button {
+	width: 100%;
+	margin-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+div.orders-list #collapseFilterButton {
+	width: 115px;
+}
+
+#order_pack_button {
+	width: 100px;
+}

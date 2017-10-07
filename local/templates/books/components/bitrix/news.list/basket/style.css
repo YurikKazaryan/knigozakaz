@@ -1,0 +1,40 @@
+div.books-list {
+	word-wrap: break-word;
+}
+
+div.books-list table {
+	vertical-align: middle !important;
+}
+
+div.books-list thead th {
+	text-align: center;
+}
+
+div.books-list .col-summa {
+	width: 130px;
+}
+
+div.books-list .col-count {
+	width: 80px;
+}
+
+div.books-list .col-price {
+	width: 130px;
+}
+
+div.books-list .book-info {
+	font-size: 85%;
+}
+
+div.books-list .book-name {
+	font-weight: bold;
+	font-size: 90%;
+}
+
+div.books-list h1 {
+	margin: 0 0 0;
+}
+
+div.books-list .basket-subtitle {
+	font-size: 120%;
+}

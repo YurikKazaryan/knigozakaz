@@ -1,0 +1,51 @@
+div.inventory-add .add-title {
+	font-size: 150%;
+	font-weight: bold;
+	text-align: center;
+	padding-bottom: 20px;
+}
+
+div.inventory-add .panel-heading {
+	font-size: 120%;
+}
+
+div.inventory-add .add-instruction {
+	padding-bottom: 5px;
+}
+
+div.inventory-add .add-find-button {
+	padding-top: 5px;
+	text-align: right;
+}
+
+div.inventory-add .find-book-name {
+	font-weight: bold;
+	padding-bottom: 10px;
+}
+
+div.inventory-add .find-book-data {
+	font-size: 90%;
+	padding-left: 50px;
+}
+
+div.inventory-add .form-group {
+	padding-top: 10px;
+}
+
+div.inventory-add .alert-danger {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+div.inventory-add .form-group-first {
+	padding-top: 0;
+}
+
+.add-find-button button {
+	width: 95px;
+}
+
+.add-find-res-body {
+	height: 500px;
+	overflow-y: auto;
+}
