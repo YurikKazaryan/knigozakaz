@@ -2,7 +2,7 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Заказ учебной литературы");?>
 
-<h1>Новости системы</h1>
+<h1>Новости</h1>
 <?
 	$arSiteNewsFilter['PROPERTY_REGION_ID'] = getRegionFilter();
 ?>
