@@ -40,6 +40,8 @@ $startDate = ($startDate == '' ? false : strtotime($startDate));
 
 $templateFile = $_SERVER['DOCUMENT_ROOT'] . '/include/PHPExcel_ajax/' . 'ventana_svod1_' . $regionID . '_' . $period . '.xlsx';
 
+//print_r($templateFile);
+
 if ($USER->IsAuthorized() && $munID && CModule::IncludeModule('iblock')) {
 
 	if (file_exists($templateFile)) {
@@ -235,9 +237,9 @@ if ($USER->IsAuthorized() && $munID && CModule::IncludeModule('iblock')) {
 
 		// Записываем таблицу во временный файл
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-		$objWriter->save($tempFileName);
+		$objWriter->save($tempFileName . ".xlsx");
 
-		$result = array('file' => basename($tempFileName), 'error' => false);
+		$result = array('file' => basename($tempFileName . ".xlsx"), 'error' => false);
 	} else {
 		$result = array('file' => '', 'error' => true, 'err_message' => 'Не найден файл шаблона для выбранного отчетного периода!');
 	}

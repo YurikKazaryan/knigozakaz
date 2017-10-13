@@ -143,7 +143,7 @@ if ($USER->GetID() == 1 && $objPHPExcel === false) test_out($templateFile);
 
 		// Записываем таблицу во временный файл
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-		$objWriter->save($tempFileName);
+		$objWriter->save($tempFileName . ".XLSX");
 
 		$result = array('file' => basename($tempFileName), 'error' => false);
 }

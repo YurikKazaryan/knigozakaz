@@ -21,7 +21,7 @@
 										<option value="astrel">«Астрель»</option>
 										<option value="ventana">«Вентана-Граф»</option>
 										<option value="russlovo">«Русское слово»</option>
-										<option value="binom">Бином</option>
+										<option value="binom">«Бином»</option>
 <?if ($USER->GetID() == 1):?>
 										<option value="prosv_step">Просвещение - Шаги</option>
 <?endif;?>

@@ -16,6 +16,13 @@ if (CModule::IncludeModule("iblock")) {
 
     $data2 = Array();
 
+    $vocabulary = array("Алгебра", "Английский язык", "Астрономия", "Биология", "История", "География", "Геометрия",
+        "Естествознание", "Изобразительное искусство", "Информатика", "Испанский язык", "Литература", "Литературное чтение",
+        "Математика", "Мировая художественная культура", "Музыка", "Немецкий язык", "Обществознание", "Окружающий мир",
+        "Основы безопасности жизнедеятельности", "Основы духовно-нравственной культуры", "Право", "Природоведение",
+        "Родная литература", "Родной язык", "Россия в мире", "Русский язык и литература", "Русский язык", "Технология", "Физика",
+        "Физическая культура", "Финский язык", "Французский язык", "Химия", "Черчение", "Чтение", "Экология", "Экономика");
+
     switch ($_GET["rpType"]) {
         case "rpOrders":
             $arSelectedFields5 = array();
@@ -196,7 +203,10 @@ if (CModule::IncludeModule("iblock")) {
                             $invBookInfo["PROPERTY_CLASS"] = $invBookInfo["PROPERTY_CLASS_VALUE"];
                             $invBookInfo["PROPERTY_BOOK_AUTHOR"] = $invBookInfo["PROPERTY_AUTHOR_VALUE"];
                             $invBookInfo["PROPERTY_BOOK_NAME"] = trim(str_replace($invBookInfo["PROPERTY_BOOK_AUTHOR"], "", $invBookInfo["NAME"]));
-                            $invBookInfo["PROPERTY_SUBJECT"] = trim(stristr($invBookInfo["PROPERTY_BOOK_NAME"], ".", true));
+
+                            foreach ($vocabulary as $subj)
+                                if (strpos(strtolower($invBookInfo["PROPERTY_BOOK_NAME"]), strtolower($subj)) !== false)
+                                        $invBookInfo["PROPERTY_SUBJECT"] = $subj;
 
                             $arFilter = Array(
                                 "IBLOCK_ID" => 37,
@@ -340,22 +350,9 @@ if (CModule::IncludeModule("iblock")) {
                                 $orderBookInfo["PROPERTY_BOOK_WRITEOFF"] = 0;
                                 $orderBookInfo["PROPERTY_USE_ORDERS"] = "Заказы";
 
-                                preg_match_all('|\d+|', $orderBookInfo["PROPERTY_BOOK_NAME"], $matches);
-
-                                $str = $orderBookInfo["PROPERTY_SUBJECT"];
-                                $str2 = "";
-
-                                for ($i = 0; $i < strlen($str); $i++) {
-                                    if (!intval($str[$i]))
-                                        $str2 .= $str[$i];
-                                    else
-                                        break;
-                                }
-
-                                $orderBookInfo["PROPERTY_SUBJECT"] = $str2;
-
-                                if (strpos($orderBookInfo["PROPERTY_SUBJECT"], "("))
-                                    $orderBookInfo["PROPERTY_SUBJECT"] = trim(stristr($orderBookInfo["PROPERTY_SUBJECT"], "(", true));
+                                foreach ($vocabulary as $subj)
+                                    if (strpos(strtolower($orderBookInfo["PROPERTY_BOOK_NAME"]), strtolower($subj)) !== false)
+                                        $orderBookInfo["PROPERTY_SUBJECT"] = $subj;
 
                                 $data[] = $orderBookInfo;
                             }
