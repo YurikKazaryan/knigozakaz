@@ -65,7 +65,7 @@ IncludeTemplateLangFile(__FILE__);
 			<div class="col-xs-3">
 
 				<?// ***** Логотип ***** ?>
-				<div class="row"><div class="col-xs-12 logo"><a href="/" title="На главную"><img src="<?=SITE_TEMPLATE_PATH.'/images/logo1.png'?>" width="230" height="175"></a></div></div>
+				<div class="row"><div class="col-xs-12 logo"><a href="/" title="На главную"><img src="<?=SITE_TEMPLATE_PATH.'/images/logo.png'?>" width="230" height="175"></a></div></div>
 				<?// ***** Логотип (END) ***** ?>
 
 				<?// --------- Указатель рабочего периода --------- ?>
