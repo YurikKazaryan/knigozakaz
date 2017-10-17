@@ -1,0 +1,32 @@
+<?
+$aMenuLinks = Array(
+	Array(
+		"Инвентаризация",
+		"/inventory/",
+		Array(), 
+		Array(), 
+		"" 
+	),
+    Array(
+        "Списание",
+        "/inventory/writeoff",
+        Array(),
+        Array(),
+        ""
+    ),
+    Array(
+        "Учащиеся",
+        "/inventory/pupil/",
+        Array(),
+        Array(),
+        ""
+    ),
+	Array(
+		"Отчеты", 
+		"/inventory/reports/reports.php",
+		Array(), 
+		Array(), 
+		"" 
+	)
+);
+?>

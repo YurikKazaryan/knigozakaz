@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Фонды";
+$arDirProperties = array(
+
+);
+?>
