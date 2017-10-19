@@ -7,7 +7,7 @@ function get_izd_svod() {
 			break;
 
 		case 'prosv':
-			url = "/include/PHPExcel_ajax/make_prosv.php";
+			url = "/include/svod/prosv.php";
 			break;
 
 		case 'prosv_step':
