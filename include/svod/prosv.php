@@ -50,7 +50,7 @@ if (CModule::IncludeModule("iblock")) {
 
     $arFilter = Array (
         "IBLOCK_ID" => 9,
-        "PROPERTY_STATUS" => "osdocs",
+        "PROPERTY_STATUS" => "oschecked",
         "PROPERTY_PERIOD" => $period,
         "PROPERTY_REGION" => $regionID,
         "PROPERTY_SCHOOL_ID" => get_schoolID_by_mun($munID),
