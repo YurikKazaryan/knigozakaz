@@ -1,1 +1,1 @@
-© <a href="http://oblcit.ru" target="_blank">ООО "Региональная система комплектования"</a>, 2017 - <?=date('Y')?>.
+© <a href="http://oblcit.ru" target="_blank">ООО "Региональная система комплектования"</a>, <?=date('Y')?>.
