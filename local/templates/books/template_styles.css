@@ -33,6 +33,10 @@ hr {
 	font-family: MyriadPro, Verdana, Arial, Helvetica, sans-serif;
 }
 
+.site-title p {
+	font-size: 75%;
+}
+
 .site-title-2 {
 	font-size: 150%;
 }

@@ -205,7 +205,7 @@ IncludeTemplateLangFile(__FILE__);
 			<div class="col-xs-9">
 
 				<?// ***** Шапка ***** ?>
-				<div class="row"><div class="col-xs-12 site-title text-right">Заказ учебников для образовательных организаций</div></div>
+                <div class="row"><div class="col-xs-12 site-title text-right">Заказ учебников для образовательных организаций <p>Забайкальский край</p></div></div>
 				<div class="row"><div class="col-xs-12 site-title-2 text-right">
 					<?if ($REGION_ID):?><?=$REGION_INFO['NAME']?><?endif;?>
 				</div></div>
