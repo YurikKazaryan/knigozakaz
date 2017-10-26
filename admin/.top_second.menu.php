@@ -40,7 +40,7 @@ $aMenuLinks = Array(
 		"/reports/svod/", 
 		Array(), 
 		Array(), 
-		"" 
+		"false" 
 	),
 	Array(
 		"Своды для издательств", 

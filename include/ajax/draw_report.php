@@ -56,7 +56,7 @@ if (CModule::IncludeModule("iblock")) {
                 $arFilter = Array(
                     "PROPERTY_SCHOOL_ID" => $schoolId,
                     "IBLOCK_ID" => 9,
-                    "!PROPERTY_STATUS" => ["osreport", "osrepready"]
+                    "!PROPERTY_STATUS" => ["osreport", "osrepready", "oscart"]
                 );
 
                 if ((count($arSelectedFields9) > 0) || (count($arSelectedFields5) > 0)) {
@@ -68,14 +68,14 @@ if (CModule::IncludeModule("iblock")) {
                             "ID" => $dataOrder["PROPERTY_249_VALUE"]
                         );
 
-                        if (isset($dataOrder["PROPERTY_24_VALUE"])) $dataOrder1["PROPERTY_24_VALUE"] = getStatusName($dataOrder["PROPERTY_24_VALUE"]);
-                        if (isset($dataOrder["PROPERTY_25_VALUE"])) $dataOrder1["PROPERTY_25_VALUE"] = get_school_name_by_id($dataOrder["PROPERTY_25_VALUE"]);
-                        if (isset($dataOrder["PROPERTY_76_VALUE"])) $dataOrder1["PROPERTY_76_VALUE"] = get_izd_name($dataOrder["PROPERTY_76_VALUE"]);
+                        if (isset($dataOrder["PROPERTY_24_VALUE"])) $dataOrder["PROPERTY_24_VALUE"] = getStatusName($dataOrder["PROPERTY_24_VALUE"]);
+                        if (isset($dataOrder["PROPERTY_25_VALUE"])) $dataOrder["PROPERTY_25_VALUE"] = get_school_name_by_id($dataOrder["PROPERTY_25_VALUE"]);
+                        if (isset($dataOrder["PROPERTY_76_VALUE"])) $dataOrder["PROPERTY_76_VALUE"] = get_izd_name($dataOrder["PROPERTY_76_VALUE"]);
 
                         $dataBooks = CIBlockElement::GetList(false, $arFilter, false, false, $arSelectedFields5);
 
                         while ($dataBook = $dataBooks->Fetch())
-                            $data[] = array_merge($dataBook, $dataOrder1);
+                            $data[] = array_merge($dataBook, $dataOrder);
                     }
                 }
             }

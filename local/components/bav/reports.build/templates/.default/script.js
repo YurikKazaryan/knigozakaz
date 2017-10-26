@@ -71,7 +71,9 @@ $(document).ready(function () {
                                     height: 500,
                                     rowNum: 30,
                                     datatype: "local",
-                                    pager: "#jqGridPager"
+                                    pager: "#jqGridPager",
+                                    shrinkToFit : false,
+                                    forceFit: true
                                 });
 
                                 $.getJSON("/include/ajax/draw_report.php", {
@@ -162,7 +164,9 @@ $(document).ready(function () {
                                     height: 500,
                                     rowNum: 30,
                                     datatype: "local",
-                                    pager: "#jqGridPager"
+                                    pager: "#jqGridPager",
+                                    shrinkToFit : false,
+                                    forceFit: true
                                 });
 
                                 $.getJSON("/include/ajax/draw_report.php", {
@@ -263,7 +267,7 @@ $(document).ready(function () {
                                     datatype: "local",
                                     pager: "#jqGridPager",
                                     shrinkToFit : false,
-                                    forceFit:true
+                                    forceFit: true
                                 });
 
                                 $.getJSON("/include/ajax/draw_report.php", {
@@ -364,7 +368,9 @@ $(document).ready(function () {
                                     height: 500,
                                     rowNum: 30,
                                     datatype: "local",
-                                    pager: "#jqGridPager"
+                                    pager: "#jqGridPager",
+                                    shrinkToFit : false,
+                                    forceFit: true
                                 });
 
                                 $.getJSON("/include/ajax/draw_report.php", {
