@@ -289,10 +289,10 @@ if ($pData) {
                         ". " . $theBook["BOOK_NAME"]);
                 else
                     $reportFile->getActiveSheet()->setCellValueByColumnAndRow(0, $startRow, $theBook["BOOK_NAME"]);
-                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(1, $startRow, $theBook["PRICE"]);
-                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(2, $startRow, $theBook["COUNT"]);
-                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(3, $startRow, $theBook["PUPIL"]);
-                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(4, $startRow, $theBook["DELETE"]);
+                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(7, $startRow, $theBook["PRICE"]);
+                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(8, $startRow, $theBook["COUNT"]);
+                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(9, $startRow, $theBook["PUPIL"]);
+                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(10, $startRow, $theBook["DELETE"]);
 
                 if ($theBook["PUPIL"] != 0)
                     $k = round(($theBook["COUNT"] - $theBook["DELETE"]) / $theBook["PUPIL"], 2);
@@ -303,9 +303,9 @@ if ($pData) {
                 $need = $need < 0 ? 0 : $need;
                 $cost = $k > 1 ? 0 : round($need * $theBook["PRICE"], 2);
 
-                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(5, $startRow, $k);
-                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(6, $startRow, $need);
-                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(7, $startRow, $cost);
+                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(11, $startRow, $k);
+                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(12, $startRow, $need);
+                $reportFile->getActiveSheet()->setCellValueByColumnAndRow(13, $startRow, $cost);
 
                 $startRow++;
 
@@ -323,12 +323,12 @@ if ($pData) {
     $startRow++;
 
     $reportFile->getActiveSheet()->setCellValueByColumnAndRow(0, $startRow, "Всего: ");
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(2, $startRow, $t1);
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(3, $startRow, $t2);
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(4, $startRow, $t3);
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(5, $startRow, round($t4 / $kk, 2));
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(6, $startRow, $t5);
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(7, $startRow, $t6);
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(8, $startRow, $t1);
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(9, $startRow, $t2);
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(10, $startRow, $t3);
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(11, $startRow, round($t4 / $kk, 2));
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(12, $startRow, $t5);
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(13, $startRow, $t6);
 
     $reportFile->getActiveSheet()->getStyle("A" . $startRow . ":H" . $startRow)->getFont()->setBold(true);
 
@@ -337,20 +337,20 @@ if ($pData) {
 
     $startRow += 5;
 
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(4, $startRow, "Средний коэффициент книгообеспеченности :");
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(8, $startRow, round($t4 / $kk, 2));
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(3, $startRow, "Средний коэффициент книгообеспеченности :");
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(7, $startRow, round($t4 / $kk, 2));
     $startRow++;
 
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(4, $startRow, "Всего потребность учебников (шт.) :");
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(8, $startRow, $t5);
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(3, $startRow, "Всего потребность учебников (шт.) :");
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(7, $startRow, $t5);
     $startRow++;
 
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(4, $startRow, "Необходимое финансирование на закупку учебников (руб.):");
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(8, $startRow, $t6);
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(3, $startRow, "Необходимое финансирование на закупку учебников (руб.):");
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(7, $startRow, $t6);
     $startRow++;
 
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(4, $startRow, "С учётом среднего коэффициента удорожания 1,1 (10%) в год (руб.):");
-    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(8, $startRow, round($t6 * 1.1, 2));
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(3, $startRow, "С учётом среднего коэффициента удорожания 1,1 (10%) в год (руб.):");
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(7, $startRow, round($t6 * 1.1, 2));
     $startRow++;
 
     $objWriter = new PHPExcel_Writer_Excel2007($reportFile);

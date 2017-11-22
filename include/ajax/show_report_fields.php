@@ -27,7 +27,7 @@ if (CModule::IncludeModule("iblock")) {
             $data[250] = "Заказ: Район";
             $data[76] = "Учебник: Издательство";
 
-            $propertiesArray = Array(10, 11, 15, 19, 22, 23, 74, 232);
+            $propertiesArray = Array(10, 232, 23, 15, 19, 22, 74);
             $properties = CIBlock::GetProperties(5, Array("NAME" => "ASC"), $arFilter);
             while ($property = $properties->Fetch())
                 if (in_array($property["ID"], $propertiesArray))
@@ -57,10 +57,10 @@ if (CModule::IncludeModule("iblock")) {
             $data["MUNICIPALITY"] = "Район";
             $data["SCHOOL"] = "Образовательная организация";
             $data["IZD"] = "Издательство";
-            $data["BOOK_NAME"] = "Название учебника";
             $data["BOOK_AUTHOR"] = "Автор учебника";
-            $data["SUBJECT"] = "Предмет";
+            $data["BOOK_NAME"] = "Название учебника";
             $data["CLASS"] = "Класс";
+            $data["SUBJECT"] = "Предмет";
             $data["BOOK_PRICE"] = "Цена учебника";
             $data["BOOK_COUNT"] = "Наличие учебников в шк. библиотеке";
             $data["PUPIL_COUNT"] = "Количество учеников, исп. учебник";

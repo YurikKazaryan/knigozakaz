@@ -39,8 +39,9 @@ foreach ($data as $key => $row) {
 }
 
 $objWriter = new PHPExcel_Writer_Excel2007($reportFile);
-$fileName = $_SERVER["DOCUMENT_ROOT"] . "/upload/tmp/" . uniqid() . ".xlsx";
+$uid = uniqid();
+$baseName = $_SERVER["DOCUMENT_ROOT"] . "/upload/tmp/" . $uid;
 
-$objWriter->save($fileName);
+$objWriter->save($baseName . ".XLSX");
 
-echo json_encode(basename($fileName));
+echo json_encode(basename($baseName));

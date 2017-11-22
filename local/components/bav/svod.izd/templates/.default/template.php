@@ -17,11 +17,17 @@
 									<label>Издательство</label>
 									<select class="form-control report-control" name="IZD" id="izd_select">
 										<option value="prosv">«Просвещение»</option>
+										<option value="121">«Просвещение» - ЭФУ</option>
 										<option value="drofa">«Дрофа»</option>
+                                        <option value="119">«Дрофа» - ЭФУ</option>
 										<option value="astrel">«Астрель»</option>
+										<option value="114">«Астрель» - ЭФУ</option>
 										<option value="ventana">«Вентана-Граф»</option>
+                                        <option value="116">«Вентана-Граф» - ЭФУ</option>
 										<option value="russlovo">«Русское слово»</option>
+                                        <option value="122">«Русское слово» - ЭФУ</option>
 										<option value="binom">«Бином»</option>
+                                        <option value="115">«Бином» - ЭФУ</option>
 <?if ($USER->GetID() == 1):?>
 										<option value="prosv_step">Просвещение - Шаги</option>
 <?endif;?>

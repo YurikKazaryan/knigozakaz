@@ -4,7 +4,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/include/bav.php");									// Подключ
 
 	$fileType = trim($_GET['t']) == 'x' ? 'XLSX' : 'XLS';
 
-	$fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/tmp/' . trim($_GET['f'] . '.' . $fileType);
+	$fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/tmp/' . trim($_GET['f']) . '.' . $fileType;
 
 	if (file_exists($fileName)) {
 

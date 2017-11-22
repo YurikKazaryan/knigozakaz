@@ -54,7 +54,7 @@ if (CModule::IncludeModule("iblock")) {
         "PROPERTY_PERIOD" => $period,
         "PROPERTY_REGION" => $regionID,
         "PROPERTY_SCHOOL_ID" => get_schoolID_by_mun($munID),
-        "PROPERTY_IZD_ID" =>$izd
+        "PROPERTY_IZD_ID" => $izd
     );
 
     $arSelectedFields = Array (

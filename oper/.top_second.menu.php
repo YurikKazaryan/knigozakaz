@@ -54,7 +54,7 @@ $aMenuLinks = Array(
 		"", 
 		Array(), 
 		Array(), 
-		"" 
+		"false" 
 	),
 	Array(
 		"Реформирование спецификаций", 

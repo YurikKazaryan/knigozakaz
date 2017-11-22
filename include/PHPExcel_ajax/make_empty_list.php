@@ -16,7 +16,11 @@ $result = array('file' => '', 'error' => true);
 
 $periodID = intval($_POST['PERIOD']);
 
-$templateFile = $_SERVER['DOCUMENT_ROOT'] . '/include/PHPExcel_ajax/' . 'empty_list.xls';
+$reportType = trim($_POST['TYPE']);
+
+$templateFile = $_SERVER['DOCUMENT_ROOT'] . '/include/PHPExcel_ajax/';
+
+$reportType == 'INV_ZAKAZ' ?  $templateFile .= 'empty_list.xls' : $templateFile .= 'empty_list_inv.xls';
 
 if ($USER->IsAuthorized() && CModule::IncludeModule('iblock') && file_exists($templateFile) && $periodID) {
 
@@ -27,36 +31,66 @@ if ($USER->IsAuthorized() && CModule::IncludeModule('iblock') && file_exists($te
 
 	// Формируем отчет
 
-	// составляем список ID школ. у которых есть заказы или отчеты
-	$arOrders = array();
-	$res = CIBlockElement::GetList(
-		false,
-		array('IBLOCK_ID' => 11, 'PROPERTY_PERIOD' => $periodID),
-		false, false,
-		array('IBLOCK_ID', 'ID', 'PROPERTY_SCHOOL_ID', 'PROPERTY_PERIOD')
-	);
-	while ($arFields = $res->GetNext())
-		if (!in_array($arFields['PROPERTY_SCHOOL_ID_VALUE'], $arOrders)) $arOrders[] = $arFields['PROPERTY_SCHOOL_ID_VALUE'];
+    if ($reportType == 'TE_ZAKAZ') {
+        // составляем список ID школ. у которых есть заказы или отчеты
+        $arOrders = array();
+        $res = CIBlockElement::GetList(
+            false,
+            array('IBLOCK_ID' => 11, 'PROPERTY_PERIOD' => $periodID),
+            false, false,
+            array('IBLOCK_ID', 'ID', 'PROPERTY_SCHOOL_ID', 'PROPERTY_PERIOD')
+        );
+        while ($arFields = $res->GetNext())
+            if (!in_array($arFields['PROPERTY_SCHOOL_ID_VALUE'], $arOrders)) $arOrders[] = $arFields['PROPERTY_SCHOOL_ID_VALUE'];
 
-	// Выбираем школы, которых нет в сформированном списке
-	$arSchools = array();
-	$res = CIBlockElement::GetList(
-		array('PROPERTY_MUN' => 'asc'),
-		array('IBLOCK_ID' => 10),
-		false, false,
-		array('IBLOCK_ID', 'ID', 'NAME', 'PROPERTY_FULL_NAME', 'PROPERTY_DIR_FIO', 'PROPERTY_PHONE', 'PROPERTY_EMAIL', 'PROPERTY_MUN')
-	);
-	while ($arFields = $res->GetNext())
-		if (!in_array($arFields['ID'], $arOrders))
-			$arSchools[] = array(
-				'ID' => $arFields['ID'],
-				'MUN' => get_izd_name($arFields['PROPERTY_MUN_VALUE']),
-				'NAME' => $arFields['~NAME'] . ($arFields['~PROPERTY_FULL_NAME_VALUE'] ? ' - ' . $arFields['~PROPERTY_FULL_NAME_VALUE'] : ''),
-				'DIR' => $arFields['PROPERTY_DIR_FIO_VALUE'],
-				'PHONE' => $arFields['~PROPERTY_PHONE_VALUE'],
-				'EMAIL' => $arFields['~PROPERTY_EMAIL_VALUE']
-			);
+        // Выбираем школы, которых нет в сформированном списке
+        $arSchools = array();
+        $res = CIBlockElement::GetList(
+            array('PROPERTY_MUN' => 'asc'),
+            array('IBLOCK_ID' => 10),
+            false, false,
+            array('IBLOCK_ID', 'ID', 'NAME', 'PROPERTY_FULL_NAME', 'PROPERTY_DIR_FIO', 'PROPERTY_PHONE', 'PROPERTY_EMAIL', 'PROPERTY_MUN')
+        );
+        while ($arFields = $res->GetNext())
+            if (!in_array($arFields['ID'], $arOrders))
+                $arSchools[] = array(
+                    'ID' => $arFields['ID'],
+                    'MUN' => get_izd_name($arFields['PROPERTY_MUN_VALUE']),
+                    'NAME' => $arFields['~NAME'] . ($arFields['~PROPERTY_FULL_NAME_VALUE'] ? ' - ' . $arFields['~PROPERTY_FULL_NAME_VALUE'] : ''),
+                    'DIR' => $arFields['PROPERTY_DIR_FIO_VALUE'],
+                    'PHONE' => $arFields['~PROPERTY_PHONE_VALUE'],
+                    'EMAIL' => $arFields['~PROPERTY_EMAIL_VALUE']
+                );
+    } else if ($reportType == 'TE_INV') {
+        $arInv = array();
+        $res = CIBlockElement::GetList(
+            false,
+            array('IBLOCK_ID' => 25),
+            false, false,
+            array('IBLOCK_ID', 'ID', 'PROPERTY_SCHOOL_ID')
+        );
+        while ($arFields = $res->GetNext())
+            if (!in_array($arFields['PROPERTY_SCHOOL_ID_VALUE'], $arInv)) $arInv[] = $arFields['PROPERTY_SCHOOL_ID_VALUE'];
 
+        // Выбираем школы, которых нет в сформированном списке
+        $arSchools = array();
+        $res = CIBlockElement::GetList(
+            array('PROPERTY_MUN' => 'asc'),
+            array('IBLOCK_ID' => 10),
+            false, false,
+            array('IBLOCK_ID', 'ID', 'NAME', 'PROPERTY_FULL_NAME', 'PROPERTY_DIR_FIO', 'PROPERTY_PHONE', 'PROPERTY_EMAIL', 'PROPERTY_MUN')
+        );
+        while ($arFields = $res->GetNext())
+            if (!in_array($arFields['ID'], $arInv))
+                $arSchools[] = array(
+                    'ID' => $arFields['ID'],
+                    'MUN' => get_izd_name($arFields['PROPERTY_MUN_VALUE']),
+                    'NAME' => $arFields['~NAME'] . ($arFields['~PROPERTY_FULL_NAME_VALUE'] ? ' - ' . $arFields['~PROPERTY_FULL_NAME_VALUE'] : ''),
+                    'DIR' => $arFields['PROPERTY_DIR_FIO_VALUE'],
+                    'PHONE' => $arFields['~PROPERTY_PHONE_VALUE'],
+                    'EMAIL' => $arFields['~PROPERTY_EMAIL_VALUE']
+                );
+    }
 	// Загружаем таблицу-шаблон
 	$objPHPExcel = PHPExcel_IOFactory::load($templateFile);
 
@@ -86,7 +120,7 @@ if ($USER->IsAuthorized() && CModule::IncludeModule('iblock') && file_exists($te
 
 	// Записываем таблицу во временный файл
 	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-	$objWriter->save($tempFileName);
+	$objWriter->save($tempFileName . '.XLS');
 
 	$result = array('file' => basename($tempFileName), 'error' => false);
 

@@ -47,14 +47,14 @@ $aMenuLinks = Array(
 		"/reports/izd/", 
 		Array(), 
 		Array(), 
-		"CSite::InGroup(array(1,6,7))" 
+		"CSite::InGroup(array(1,6))" 
 	),
 	Array(
 		"Общий отчёт", 
 		"/reports/full/", 
 		Array(), 
 		Array(), 
-		"CSite::InGroup(array(1,6,7))" 
+		"CSite::InGroup(array(1,6))" 
 	),
 	Array(
 		"-", 

@@ -3,6 +3,14 @@
  */
 var rpType = "";
 
+function getBooksByParam() {
+    var izd = $("#umk_izd :selected").val();
+    var Class = $("#umk_class").val();
+    var subject = $("#umk_subj :selected").val();
+
+
+}
+
 $(document).ready(function () {
     $(".build-step1 li").mouseover(function () {
         $(this).addClass("shadow");
@@ -314,7 +322,134 @@ $(document).ready(function () {
                 });
                 break;
             case "rpUMK":
-                $.ajax({
+                $("input[name=selectAll]").addClass("hidden");
+                $("#typeUMK").removeAttr("hidden");
+
+                $(".build-step1").hide(300);
+                $(".build-step2").removeClass("hidden");
+
+                $("input[name=step3]").click(function () {
+                    var UMK_IZD = $("#umk_izd :selected").val();
+                    var UMK_SUBJ = $("#umk_subj :selected").val();
+                    var UMK_CLASS = $("#umk_class").val();
+
+                    $.ajax({
+                        url: "/include/ajax/draw_report_umk.php",
+                        method: "POST",
+                        data: {"UMK_IZD": UMK_IZD, "UMK_SUBJ" : UMK_SUBJ, "UMK_CLASS" : UMK_CLASS},
+                        cache: false,
+                        async: false,
+                        beforeSend: function () {
+                            $("#empty_list_loading").removeAttr('hidden');
+                            //$(".report-control").attr('disabled', 'disabled');
+                        },
+                        success: function (data) {
+                            if (data) var result = jQuery.parseJSON(data);
+                            //console.log(result);
+                            $(".build-step2").hide(300);
+                            $(".build-step3").removeClass("hidden");
+
+                            $("#umk_book_div").removeAttr("hidden");
+                            $("#export").css("display", "none");
+
+                            var html = "<option value='-'>-</option>";
+                            
+                            $.each(result, function (bookId, bookName) {
+                                html += "<option value='" + bookId + "'>" + bookName + "</option>";
+                            });
+
+                            $("#umk_book").append(html).change(function () {
+                                var bookId = $(this).val();
+
+                                $.ajax({
+                                    url: "/include/ajax/show_book_use.php",
+                                    method: "POST",
+                                    data: {"BOOKID": bookId},
+                                    cache: false,
+                                    async: false,
+                                    success: function (data) {
+                                        var result = $.parseJSON(data);
+                                        if (result) {
+                                            var headers = [
+                                                {
+                                                    "name" : "RAION",
+                                                    "label" : "Район"
+                                                },
+                                                {
+                                                    "name" : "FULL_NAME",
+                                                    "label" : "Полное название"
+                                                 },
+                                                {
+                                                    "name" : "ADDRESS",
+                                                    "label" : "Почтовый адрес"
+                                                },
+                                                {
+                                                    "name" : "DIR_FIO",
+                                                    "label" : "ФИО директора"
+                                                },
+                                                {
+                                                    "name" : "OTV_FIO",
+                                                    "label" : "ФИО администратора"
+                                                },
+                                                {
+                                                    "name" : "PHONE",
+                                                    "label" : "Телефон"
+                                                },
+                                                {
+                                                    "name" : "EMAIL",
+                                                    "label" : "Email"
+                                                }
+                                            ];
+                                            $("#dataTable").jqGrid({
+                                                colModel: headers,
+                                                width: "800",
+                                                height: 300,
+                                                rowNum: 30,
+                                                datatype: "local",
+                                                pager: "#jqGridPager",
+                                                shrinkToFit : false,
+                                                forceFit: true
+                                            });
+                                            var gridArray = [];
+                                            $.each(result, function (a, b) {
+                                                gridArray.push(b);
+                                            });
+
+                                            $("#dataTable").jqGrid('setGridParam', {data: gridArray});
+                                            $("#dataTable").trigger('reloadGrid');
+
+                                            $("#export").css("display", "block");
+
+                                            //console.log();
+                                            $("#export").on("click", function () {
+                                                $.ajax({
+                                                    url: "/include/ajax/prepare_excel_umk.php",
+                                                    method: "POST",
+                                                    data: {"data": gridArray, "book" : $("#umk_book :selected").text(), "izd": UMK_IZD},
+                                                    cache: false,
+                                                    async: false,
+                                                    success: function (data) {
+                                                        var result = $.parseJSON(data);
+                                                        window.open("/reports/download/?t=x&f=" + result);
+                                                    }
+                                                });
+                                            })
+                                        } else {
+                                            alert("Данных для отображения не найдено");
+                                            $("#dataTable").html("");
+                                            $("#export").css("display", "none");
+                                        }
+                                    }
+                                });
+                            })
+                        },
+                        error: function () {
+                            $("#empty_list_loading").html('<div class="alert alert-danger text-center" role="alert">Ошибка в скрипте AJAX</div>');
+                        }
+                    });
+                });
+
+                /*$.ajax({
                     url: "/include/ajax/show_report_fields.php",
                     method: "POST",
                     data: {"rpType": rpType},
@@ -407,22 +542,24 @@ $(document).ready(function () {
                     error: function () {
                         alert("Ajax Error! Свяжитесь с администратором!");
                     }
-                });
+                });*/
                 break;
             case "rpEmpty":
                 $("input[name=selectAll]").addClass("hidden");
                 $("#workPeriod").removeAttr("hidden");
+                $("#typeEmpty").removeAttr("hidden");
 
                 $(".build-step1").hide(300);
                 $(".build-step2").removeClass("hidden");
 
                 $("input[name=step3]").click(function () {
                     var workPeriod = $("#period_empty :selected").val();
+                    var typeEmpty = $("#type_empty :selected").val();
 
                     $.ajax({
                         url: "/include/PHPExcel_ajax/make_empty_list.php",
                         method: "POST",
-                        data: {"PERIOD" : workPeriod},
+                        data: {"PERIOD" : workPeriod, "TYPE" : typeEmpty},
                         cache: false,
                         async: false,
                         beforeSend: function(){
@@ -440,6 +577,123 @@ $(document).ready(function () {
                         }
                     });
                 });
+                break;
+            case "rpBudget":
+                $(".build-step1").hide(300);
+                $(".build-step2").removeClass("hidden");
+                $("input[name=selectAll]").addClass("hidden");
+
+                $("#budgetIzd").css("display", "block");
+
+                $("input[name=step3]").click(function () {
+                    var BDG_IZD = $("#bdg_izd :selected").val();
+                    var BDG_GROUP = $("#bdg_group :selected").val();
+
+                    $.ajax({
+                        url: "/include/ajax/budget_info.php",
+                        method: "POST",
+                        data: {"BDG_IZD" : BDG_IZD, "BDG_GROUP" : BDG_GROUP},
+                        cache: false,
+                        async: false,
+                        beforeSend: function(){
+                            $("#empty_list_loading").removeAttr('hidden');
+                            $(".report-control").attr('disabled','disabled');
+                        },
+                        success: function(data){
+                            var result = $.parseJSON(data);
+                            $(".build-step2").hide(300);
+                            $(".build-step3").removeClass("hidden");
+
+                            switch (BDG_GROUP) {
+                                case "1":
+                                    var html = "";
+                                    var total = 0;
+                                    html += "<tr>";
+                                    html += "<td><b>Муниципалитет</b></td>";
+                                    html += "<td><b>Сумма (руб.)</b></td>";
+                                    html += "</tr>";
+                                    $.each(result, function (name, sum) {
+                                        total += sum;
+                                        html += "<tr>";
+                                        html += "<td>" + name + "</td>";
+                                        html += "<td>" + sum + "</td>";
+                                        html += "</tr>";
+                                    });
+
+                                    html += "<tr>";
+                                    html += "<td><b>Итого: </b></td>";
+                                    html += "<td><b>" + total + "</b></td>";
+                                    html += "</tr>";
+
+                                    $("#summTable").append(html);
+                                    break;
+                                case "2":
+                                    var html = "";
+                                    html += "<tr>";
+                                    html += "<td><b>Муниципалитет</b></td>";
+                                    html += "<td><b>Образовательная организация</b></td>";
+                                    html += "<td><b>Сумма (руб.)</b></td>";
+                                    html += "</tr>";
+                                    
+                                    $.each(result, function (name, schools) {
+                                        $.each(schools, function (sname, info) {
+                                            html += "<tr>";
+                                            html += "<td>" + name + "</td>";
+                                            if (sname !== "Нет данных")
+                                                html += "<td><a href='school_" + info["SCHOOL_ID"] + "'>" + sname + "</a></td>";
+                                            else
+                                                html += "<td>" + sname + "</td>";
+
+                                            html += "<td>" + ~~parseFloat(info["COST"]) + "</td>";
+                                            html += "</tr>";
+                                        })
+                                    });
+
+                                    $("#summTable").append(html);
+
+                                    var bookHtml = "";
+                                    bookHtml = "<tr>";
+                                    bookHtml += "<td><b>Название ученика</b></td>";
+                                    bookHtml += "<td><b>Количество экземпляров</b></td>";
+                                    bookHtml += "<td><b>Цена учебника</b></td>";
+                                    bookHtml += "<td><b>Общая стоимость</b></td>";
+                                    bookHtml += "</tr>";
+
+                                    $.each(result, function (name, schools) {
+                                        $.each(schools, function (sname, info) {
+                                            if (info["BOOKS"].length > 0)
+                                                $.each(info["BOOKS"], function (a, bookInfo) {
+                                                    console.log(bookInfo);
+                                                    bookHtml += "<tr class='book_" + bookInfo["SCHOOL_ID"] + "'>";
+                                                    bookHtml += "<td>" + bookInfo["AUTHOR"] + ", " + bookInfo["TITLE"] + ", " + bookInfo["CLASS"] + "</td>";
+                                                    bookHtml += "<td>" + bookInfo["COUNT"] + "</td>";
+                                                    bookHtml += "<td>" + bookInfo["PRICE"] + "</td>";
+                                                    bookHtml += "<td>" + (bookInfo["PRICE"] * bookInfo["COUNT"]) + "</td>";
+                                                    bookHtml += "</tr>";
+                                                });
+                                        });
+                                    });
+
+                                    $("#bookInfoTable").append(bookHtml);
+
+                                    $("#summTable a").click(function (e) {
+                                        e.preventDefault();
+                                        var clickedSchool = $(this).attr("href").match(/\d+/)[0];
+
+                                        $("#bookInfoTable tbody tr[class]").hide();
+                                        $("tr.book_" + clickedSchool).show();
+
+                                        $("#bookInfoModal").modal();
+                                    });
+                                    break;
+                            }
+                        },
+                        error: function(){
+                            $("#empty_list_loading").html('<div class="alert alert-danger text-center" role="alert">Ошибка в скрипте AJAX</div>');
+                        }
+                    })
+                });
+
                 break;
         }
     })

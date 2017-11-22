@@ -29,7 +29,7 @@ if (CModule::IncludeModule("iblock")) {
             $arSelectedFields9 = array();
 
             $properties9 = Array(24, 25, 33, 34, 76, 249, 257);
-            $properties5 = Array(10, 11, 15, 19, 22, 23, 74, 232);
+            $properties5 = Array(10, 232,  23, 11, 15, 19, 22, 74);
 
             foreach ($fieldIDs as $fieldID => $value) {
                 if (in_array($value, $properties5))
@@ -183,11 +183,11 @@ if (CModule::IncludeModule("iblock")) {
                         );
 
                         $arSelectedFields24 = Array();
+                        if (in_array("BOOK_AUTHOR", $fieldIDs)) array_push($arSelectedFields24, "PROPERTY_AUTHOR");
                         if (in_array("BOOK_NAME", $fieldIDs)) array_push($arSelectedFields24, "NAME");
                         if (in_array("CLASS", $fieldIDs)) array_push($arSelectedFields24, "PROPERTY_CLASS");
                         if (in_array("BOOK_PRICE", $fieldIDs)) array_push($arSelectedFields24, "PROPERTY_PRICE");
                         if (in_array("IZD", $fieldIDs)) array_push($arSelectedFields24, "PROPERTY_IZD_ID");
-                        if (in_array("BOOK_AUTHOR", $fieldIDs)) array_push($arSelectedFields24, "PROPERTY_AUTHOR");
 
                         $invBooksInfo = CIBlockElement::GetList(false, $arFilter, false, false, $arSelectedFields24);
 

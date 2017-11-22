@@ -10,7 +10,7 @@ function get_izd_svod() {
 			url = "/include/svod/prosv.php";
 			break;
 
-		case 'prosv_step':
+        case 'prosv_step':
 			url = "/include/PHPExcel_ajax/make_prosv_step.php";
 			break;
 
@@ -29,6 +29,10 @@ function get_izd_svod() {
 		case 'russlovo':
 			url = "/include/PHPExcel_ajax/make_drofa.php";
 			break;
+
+		default:
+            url = "/include/svod/prosv_efu.php";
+            break;
 	}
 	/*
 	if (izd == 'prosv_step') {

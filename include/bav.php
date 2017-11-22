@@ -3116,4 +3116,63 @@ function file_force_download($file) {
     }
 }
 
+/*********************************************
+ * Возвращает массив учебников по издательству, классу и предмету
+ *********************************************/
+function getBookListByParams($izd, $class, $subject)
+{
+    $subjects = array(0 => "", 1 => "Алгебра", 2 => "Английский язык", 3 => "Астрономия", 4 => "Биология", 5 => "История",
+        6 => "География", 7 => "Геометрия", 8 => "Естествознание", 9 => "Изобразительное искусство", 10 => "Информатика",
+        11 => "Испанский язык", 12 => "Литература", 14 => "Литературное чтение", 15 => "Математика", 16 => "Мировая художественная культура",
+        17 => "Музыка", 18 => "Немецкий язык", 19 => "Обществознание", 20 => "Окружающий мир", 21 => "Основы безопасности жизнедеятельности",
+        22 => "Основы духовно-нравственной культуры", 23 => "Право", 24 => "Природоведение", 25 => "Родная литература",
+        26 => "Родной язык", 27 => "Россия в мире", 28 => "Русский язык и литература", 29 => "Русский язык", 30 => "Технология",
+        31 => "Физика", 32 => "Физическая культура", 33 => "Финский язык", 34 => "Французский язык", 35 => "Химия", 36 => "Черчение",
+        37 => "Чтение", 38 => "Экология", 39 => "Экономика");
+
+    if (CModule::IncludeModule("iblock")) {
+        $arFilter = Array (
+            "IBLOCK_ID" => 5,
+            "%PROPERTY_CLASS" => $class == 0 ? "" : $class,
+            "%NAME" => $subjects[$subject],
+            "IBLOCK_SECTION_ID" => $izd
+        );
+
+        $arSelectedFields = Array (
+            "ID",
+            "NAME",
+            "PROPERTY_CLASS"
+        );
+
+        $books = CIBlockElement::GetList(["NAME" => "ASC"], $arFilter, false, false, $arSelectedFields);
+
+        while ($book = $books->Fetch()) {
+            $result[$book["ID"]] = $book["NAME"] . " " . $book["PROPERTY_CLASS_VALUE"] . " кл.";
+        }
+
+        asort($result);
+    }
+
+    return $result;
+}
+
+
+function getMunIdBySchoolId($schoolId) {
+    $arFilter = Array(
+        "IBLOCK_ID" => 10,
+        "ID" => $schoolId
+    );
+
+    $arSelectedFields = Array(
+        "PROPERTY_MUN"
+    );
+
+    if (CModule::IncludeModule("iblock")) {
+        $munId = CIBlockElement::GetList(false, $arFilter, false, false, $arSelectedFields)->Fetch();
+    }
+
+    return $munId["PROPERTY_MUN_VALUE"];
+}
+
+
 ?>
