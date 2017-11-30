@@ -16,7 +16,7 @@ if (CModule::IncludeModule("iblock")) {
 
     $data2 = Array();
 
-    $vocabulary = array("Алгебра", "Английский язык", "Астрономия", "Биология", "История", "География", "Геометрия",
+    $vocabulary = array("Алгебра", "Английский язык", "Астрономия", "Биология", "Букварь", "История", "География", "Геометрия",
         "Естествознание", "Изобразительное искусство", "Информатика", "Испанский язык", "Литература", "Литературное чтение",
         "Математика", "Мировая художественная культура", "Музыка", "Немецкий язык", "Обществознание", "Окружающий мир",
         "Основы безопасности жизнедеятельности", "Основы духовно-нравственной культуры", "Право", "Природоведение",
@@ -71,6 +71,7 @@ if (CModule::IncludeModule("iblock")) {
                         if (isset($dataOrder["PROPERTY_24_VALUE"])) $dataOrder["PROPERTY_24_VALUE"] = getStatusName($dataOrder["PROPERTY_24_VALUE"]);
                         if (isset($dataOrder["PROPERTY_25_VALUE"])) $dataOrder["PROPERTY_25_VALUE"] = get_school_name_by_id($dataOrder["PROPERTY_25_VALUE"]);
                         if (isset($dataOrder["PROPERTY_76_VALUE"])) $dataOrder["PROPERTY_76_VALUE"] = get_izd_name($dataOrder["PROPERTY_76_VALUE"]);
+                        if (in_array("SZ", $fieldIDs)) $dataOrder["PROPERTY_SZ_VALUE"] = $dataOrder["PROPERTY_33_VALUE"] * $dataOrder["PROPERTY_34_VALUE"];
 
                         $dataBooks = CIBlockElement::GetList(false, $arFilter, false, false, $arSelectedFields5);
 
@@ -157,6 +158,12 @@ if (CModule::IncludeModule("iblock")) {
         case "rpSvod":
             $munIDs = getMunList2($USER->GetID());
 
+            if (!$munIDs) {
+                $schoolID = get_schoolID($USER->GetID());
+
+                $munIDs = Array(getMunIdBySchoolId($schoolID) => getRegionName(getMunIdBySchoolId($schoolID)));
+            }
+
             foreach ($munIDs as $munID => $munName) {
                 $schoolList = get_schoolID_by_mun($munID);
 
@@ -207,6 +214,39 @@ if (CModule::IncludeModule("iblock")) {
                             foreach ($vocabulary as $subj)
                                 if (strpos(strtolower($invBookInfo["PROPERTY_BOOK_NAME"]), strtolower($subj)) !== false)
                                         $invBookInfo["PROPERTY_SUBJECT"] = $subj;
+
+                            if ($invBookInfo["PROPERTY_BOOK_PRICE"] == "") { //Если цену не нашли, то ищем учебник в библиотеке и берем цену
+                                $arFilter = Array(
+                                    "IBLOCK_ID" => 5,
+                                    "PROPERTY_AUTHOR" => "%" . substr($invBookInfo["PROPERTY_BOOK_AUTHOR"], 0, strpos($invBookInfo["PROPERTY_BOOK_AUTHOR"], " ")) . "%",
+                                    "IBLOCK_SECTION_ID" => $invBookInfo["PROPERTY_IZD_ID_VALUE"],
+                                    "PROPERTY_CLASS" => "%" . $invBookInfo["PROPERTY_CLASS"] . "%",
+                                    "PROPERTY_TITLE" => "%" . $invBookInfo["PROPERTY_SUBJECT"] . "%"
+                                );
+
+                                $arSelectedFields = Array(
+                                    "ID"
+                                );
+
+                                $bookPrice = CIBlockElement::GetList(false, $arFilter, false, false, $arSelectedFields)->Fetch();
+
+                                $bookIDforPrice = $bookPrice["ID"];
+
+                                $arFilter = Array(
+                                    "IBLOCK_ID" => 34,
+                                    "PROPERTY_PERIOD" => getWorkPeriod(),
+                                    "PROPERTY_BOOK" => $bookIDforPrice
+                                );
+
+                                $arSelectedFields = Array(
+                                    "PROPERTY_PRICE"
+                                );
+
+                                $priceFromBookID = CIBlockElement::GetList(false, $arFilter, false, false, $arSelectedFields)->Fetch();
+
+                                $invBookInfo["PROPERTY_BOOK_PRICE"] = $priceFromBookID["PROPERTY_PRICE_VALUE"];
+                                $invBookInfo["PROPERTY_BOOK_PRICE"] = str_replace(",", ".",  $invBookInfo["PROPERTY_BOOK_PRICE"]);
+                            }
 
                             $arFilter = Array(
                                 "IBLOCK_ID" => 37,

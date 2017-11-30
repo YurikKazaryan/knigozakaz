@@ -118,3 +118,10 @@ hr {
 .order-osready { background: #bb6c8a !important; color: #fff !important; }
 .order-osaction { background: #ed6868 !important; color: #000 !important; }
 .order-osclosed { background: #e1e1e1 !important; color: #a3a3a3 !important; }
+
+@media (min-width: 768px) {
+	.modal-dialog1 {
+		width: 900px;
+		margin: 40px auto;
+	}
+}

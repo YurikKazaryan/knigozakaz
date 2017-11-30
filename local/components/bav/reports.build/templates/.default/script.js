@@ -35,7 +35,7 @@ $(document).ready(function () {
                         $.each(result, function (id, name) {
                             html += "<div class='checkbox'>";
                             html += "<label><input type='checkbox' value='" + id + "' name='properties' ";
-                            html += "headerName = '" + name + "' jqTitle='PROPERTY_" + id + "_VALUE'>" + name + "</label>";
+                            html += "headerName = '" + name + "' jqTitle='PROPERTY" + id + "_VALUE'>" + name + "</label>";
                             html += "</div>";
                         });
 
@@ -60,7 +60,7 @@ $(document).ready(function () {
                             var properties = [];
                             var headers = [];
                             $(".checkbox input:checked").each(function () {
-                                properties.push(this.value);
+                                properties.push(this.value.replace("_", ""));
                                 headers.push({
                                     label: $(this).attr("headerName"),
                                     name: $(this).attr("jqTitle")
@@ -70,12 +70,17 @@ $(document).ready(function () {
                             if (properties.length === 0)
                                 alert("Выберите поля для отображения в отчёте!");
                             else {
-                                $(".build-step2").hide(300);
-                                $(".build-step3").removeClass("hidden");
+                                //$(".build-step2").hide(300);
+                                $(".build-step3").removeClass("hide");
+                                $("#jqGridPager").removeClass("hide");
+                                $("#dataTable").removeClass("hide");
+                                $.jgrid.gridUnload("#dataTable");
+
+                                //$.jgrid.gridUnload("#dataTable");
 
                                 $("#dataTable").jqGrid({
                                     colModel: headers,
-                                    width: "800",
+                                    width: 800,
                                     height: 500,
                                     rowNum: 30,
                                     datatype: "local",
@@ -89,13 +94,25 @@ $(document).ready(function () {
                                     "rpType": rpType
                                 }, function (response) {
                                     var gridArrayData = [];
-                                    console.log(response);
+                                    //console.log(response);
                                     $.each(response, function (a, b) {
                                         gridArrayData.push(b);
                                     });
-                                    //console.log(gridArrayData);
-                                    $("#dataTable").jqGrid('setGridParam', {data: gridArrayData});
-                                    $("#dataTable").trigger('reloadGrid');
+
+                                    $("#dataTable").jqGrid("setGridParam", {data: gridArrayData});
+                                    $("#dataTable").trigger("reloadGrid");
+
+                                    $("#dataTable").jqGrid('filterToolbar',
+                                        {
+                                            autosearch: true,
+                                            stringResult: true,
+                                            searchOnEnter: true,
+                                        }
+                                    );
+
+                                    $("#rpBudgetTitle").html("Перечень заказов муниципальных образований");
+
+                                    $("#export").removeClass("hide");
 
                                     $("#export").on("click", function () {
                                         $("#dataTable").jqGrid("exportToExcel", {
@@ -165,6 +182,7 @@ $(document).ready(function () {
                             if (properties.length === 0)
                                 alert("Выберите поля для отображения в отчёте!");
                             else {
+                                $.jgrid.gridUnload("#dataTable");
 
                                 $("#dataTable").jqGrid({
                                     colModel: headers,
@@ -186,7 +204,7 @@ $(document).ready(function () {
                                         gridArrayData.push(b);
                                     });
 
-                                    $(".build-step2").hide(300);
+                                    //$(".build-step2").hide(300);
                                     $(".build-step3").removeClass("hidden");
 
                                     $("#dataTable").jqGrid('setGridParam', {data: gridArrayData});
@@ -215,7 +233,7 @@ $(document).ready(function () {
                 break;
 
             case "rpSvod":
-
+                var gridArrayData = [];
                 $(".build-step1").hide(300);
                 $(".build-step2").removeClass("hidden");
                 $.ajax({
@@ -255,17 +273,26 @@ $(document).ready(function () {
                         $("input[name=step3]").click(function () {
                             var properties = [];
                             var headers = [];
+
                             $(".checkbox input:checked").each(function () {
                                 properties.push(this.value);
-                                headers.push({
-                                    label: $(this).attr("headerName"),
-                                    name: $(this).attr("jqTitle")
-                                });
+                                if ($(this).attr("jqTitle") !== "PROPERTY_USE_ORDERS") {
+                                    headers.push({
+                                        label: $(this).attr("headerName"),
+                                        name: $(this).attr("jqTitle")
+                                    });
+                                }
+                            });
+
+                            headers.push({
+                                label: "Источник данных",
+                                name: "PROPERTY_USE_ORDERS"
                             });
 
                             if (properties.length === 0)
                                 alert("Выберите поля для отображения в отчёте!");
                             else {
+                                $.jgrid.gridUnload("#dataTable");
 
                                 $("#dataTable").jqGrid({
                                     colModel: headers,
@@ -282,34 +309,32 @@ $(document).ready(function () {
                                     "fieldIds": properties,
                                     "rpType": rpType
                                 }, function (response) {
-                                    var gridArrayData = [];
+                                    gridArrayData = [];
+
                                     $.each(response, function (a, b) {
                                         gridArrayData.push(b);
                                     });
 
-                                    $(".build-step2").hide(300);
-                                    $(".build-step3").removeClass("hidden");
+                                    //$(".build-step2").hide(300);
+                                    $(".build-step3").removeClass("hide");
+                                    $("#dataTable").removeClass("hide");
 
                                     $("#dataTable").jqGrid('setGridParam', {data: gridArrayData});
                                     $("#dataTable").trigger('reloadGrid');
 
+                                    $("#dataTable").jqGrid('filterToolbar',
+                                        {
+                                            autosearch: true,
+                                            stringResult: true,
+                                            searchOnEnter: true,
+                                        }
+                                    );
+
+                                    $("#rpBudgetTitle").html("Отчет по книгообеспеченности");
+
+                                    $("#export").removeClass("hide");
+
                                     if (gridArrayData.length === 0) alert("Данных для отображения не найдено");
-
-                                    console.log(response);
-
-                                    $("#export").on("click", function () {
-                                        $.ajax({
-                                            url: "/include/ajax/prepare_excel.php",
-                                            method: "POST",
-                                            data: {"data": gridArrayData},
-                                            cache: false,
-                                            async: false,
-                                            success: function (data) {
-                                                var result = $.parseJSON(data);
-                                                window.open("/reports/download/?t=x&f=" + result);
-                                            }
-                                        });
-                                    })
                                 }).fail(function (e) {
                                     console.log(e);
                                 });
@@ -320,6 +345,19 @@ $(document).ready(function () {
                         alert("Ajax Error! Свяжитесь с администратором!");
                     }
                 });
+                $("#export").on("click", function () {
+                    $.ajax({
+                        url: "/include/ajax/prepare_excel.php",
+                        method: "POST",
+                        data: {"data": gridArrayData},
+                        cache: false,
+                        async: false,
+                        success: function (data) {
+                            var result = $.parseJSON(data);
+                            window.open("/reports/download/?t=x&f=" + result);
+                        }
+                    });
+                })
                 break;
             case "rpUMK":
                 $("input[name=selectAll]").addClass("hidden");
@@ -328,10 +366,16 @@ $(document).ready(function () {
                 $(".build-step1").hide(300);
                 $(".build-step2").removeClass("hidden");
 
+                var gridArray = [];
+
+                var isFirstTrigger = true;
+
                 $("input[name=step3]").click(function () {
                     var UMK_IZD = $("#umk_izd :selected").val();
                     var UMK_SUBJ = $("#umk_subj :selected").val();
                     var UMK_CLASS = $("#umk_class").val();
+
+                    gridArray = [];
 
                     $.ajax({
                         url: "/include/ajax/draw_report_umk.php",
@@ -340,114 +384,148 @@ $(document).ready(function () {
                         cache: false,
                         async: false,
                         beforeSend: function () {
-                            $("#empty_list_loading").removeAttr('hidden');
+                            //$("#empty_list_loading").removeAttr('hidden');
                             //$(".report-control").attr('disabled', 'disabled');
                         },
                         success: function (data) {
-                            if (data) var result = jQuery.parseJSON(data);
-                            //console.log(result);
-                            $(".build-step2").hide(300);
-                            $(".build-step3").removeClass("hidden");
+                            if (data !== "null") {
+                                $("#rpBudgetTitle").html("Отчет по использованию учебника в образовательных организациях");
+                                
+                                var result = jQuery.parseJSON(data);
 
-                            $("#umk_book_div").removeAttr("hidden");
-                            $("#export").css("display", "none");
+                                $("#umk_book_div").removeAttr("hidden");
+                                $(".build-step3").removeClass("hide");
 
-                            var html = "<option value='-'>-</option>";
-                            
-                            $.each(result, function (bookId, bookName) {
-                                html += "<option value='" + bookId + "'>" + bookName + "</option>";
-                            });
+                                $(".ui-jqgrid").addClass("hide");
 
-                            $("#umk_book").append(html).change(function () {
-                                var bookId = $(this).val();
+                                $("#export").addClass("hide");
 
-                                $.ajax({
-                                    url: "/include/ajax/show_book_use.php",
-                                    method: "POST",
-                                    data: {"BOOKID": bookId},
-                                    cache: false,
-                                    async: false,
-                                    success: function (data) {
-                                        var result = $.parseJSON(data);
-                                        if (result) {
-                                            var headers = [
-                                                {
-                                                    "name" : "RAION",
-                                                    "label" : "Район"
-                                                },
-                                                {
-                                                    "name" : "FULL_NAME",
-                                                    "label" : "Полное название"
-                                                 },
-                                                {
-                                                    "name" : "ADDRESS",
-                                                    "label" : "Почтовый адрес"
-                                                },
-                                                {
-                                                    "name" : "DIR_FIO",
-                                                    "label" : "ФИО директора"
-                                                },
-                                                {
-                                                    "name" : "OTV_FIO",
-                                                    "label" : "ФИО администратора"
-                                                },
-                                                {
-                                                    "name" : "PHONE",
-                                                    "label" : "Телефон"
-                                                },
-                                                {
-                                                    "name" : "EMAIL",
-                                                    "label" : "Email"
-                                                }
-                                            ];
-                                            $("#dataTable").jqGrid({
-                                                colModel: headers,
-                                                width: "800",
-                                                height: 300,
-                                                rowNum: 30,
-                                                datatype: "local",
-                                                pager: "#jqGridPager",
-                                                shrinkToFit : false,
-                                                forceFit: true
-                                            });
-                                            var gridArray = [];
-                                            $.each(result, function (a, b) {
-                                                gridArray.push(b);
-                                            });
+                                gridArray = [];
 
-                                            $("#dataTable").jqGrid('setGridParam', {data: gridArray});
-                                            $("#dataTable").trigger('reloadGrid');
+                                var html = "<option value='-'>-</option>";
 
-                                            $("#export").css("display", "block");
-
-                                            //console.log();
-                                            $("#export").on("click", function () {
-                                                $.ajax({
-                                                    url: "/include/ajax/prepare_excel_umk.php",
-                                                    method: "POST",
-                                                    data: {"data": gridArray, "book" : $("#umk_book :selected").text(), "izd": UMK_IZD},
-                                                    cache: false,
-                                                    async: false,
-                                                    success: function (data) {
-                                                        var result = $.parseJSON(data);
-                                                        window.open("/reports/download/?t=x&f=" + result);
-                                                    }
-                                                });
-                                            })
-                                        } else {
-                                            alert("Данных для отображения не найдено");
-                                            $("#dataTable").html("");
-                                            $("#export").css("display", "none");
-                                        }
-                                    }
+                                $.each(result, function (bookId, bookName) {
+                                    html += "<option value='" + bookId + "'>" + bookName + "</option>";
                                 });
-                            })
+
+                                $("#umk_book").empty().append(html).change(function () {
+                                    var bookId = $(this).val();
+
+                                    $.ajax({
+                                        url: "/include/ajax/show_book_use.php",
+                                        method: "POST",
+                                        data: {"BOOKID": bookId},
+                                        cache: false,
+                                        async: false,
+                                        success: function (data) {
+                                            if (data !== "null") {
+                                                $(".build-step3").removeClass("hide");
+
+                                                var result = $.parseJSON(data);
+                                                var headers = [
+                                                    {
+                                                        "name": "RAION",
+                                                        "label": "Район"
+                                                    },
+                                                    {
+                                                        "name": "FULL_NAME",
+                                                        "label": "Полное название"
+                                                    },
+                                                    {
+                                                        "name": "ADDRESS",
+                                                        "label": "Почтовый адрес"
+                                                    },
+                                                    {
+                                                        "name": "DIR_FIO",
+                                                        "label": "ФИО директора"
+                                                    },
+                                                    {
+                                                        "name": "OTV_FIO",
+                                                        "label": "ФИО администратора"
+                                                    },
+                                                    {
+                                                        "name": "PHONE",
+                                                        "label": "Телефон"
+                                                    },
+                                                    {
+                                                        "name": "EMAIL",
+                                                        "label": "Email"
+                                                    },
+                                                    {
+                                                        "name": "ORDER_COUNT",
+                                                        "label": "Заказы (экз.)"
+                                                    }
+                                                ];
+
+                                                $.jgrid.gridUnload("#dataTable");
+
+                                                $("#dataTable").jqGrid({
+                                                    colModel: headers,
+                                                    width: "800",
+                                                    height: 300,
+                                                    rowNum: 30,
+                                                    datatype: "local",
+                                                    pager: "#jqGridPager",
+                                                    shrinkToFit: false,
+                                                    forceFit: true
+                                                });
+
+                                                gridArray = [];
+
+                                                $.each(result, function (a, b) {
+                                                    gridArray.push(b);
+                                                });
+
+
+
+                                                $("#dataTable").jqGrid('setGridParam', {data: gridArray});
+                                                $("#dataTable").trigger('reloadGrid');
+                                                $(".ui-jqgrid").removeClass("hide");
+
+                                                $("#dataTable").removeClass("hide");
+                                                $("#jqGridPager").removeClass("hide");
+                                                $(".ui-jqgrid").removeClass("hide");
+
+
+                                                $("#export").removeClass("hide");
+                                            } else {
+                                                $("#errorModal .modal-body").html("Нет информации по данному учебнику или им никто не пользуется!");
+                                                $("#errorModal").modal();
+                                                $(".ui-jqgrid").addClass("hide");
+                                                $("#export").addClass("hide");
+                                            }
+                                        }
+                                    });
+                                });
+                            } else {
+                                $("#errorModal .modal-body").html("В системе не загружены учебники данного издательства!");
+                                $(".build-step3").addClass("hide");
+                                $("#errorModal").modal();
+                            }
                         },
                         error: function () {
                             $("#empty_list_loading").html('<div class="alert alert-danger text-center" role="alert">Ошибка в скрипте AJAX</div>');
                         }
                     });
                 });
+
+                $("#export").click(function () {
+                    $.ajax({
+                        url: "/include/ajax/prepare_excel_umk.php",
+                        method: "POST",
+                        data: {
+                            "data": gridArray,
+                            "book": $("#umk_book :selected").text(),
+                            "izd": $("#umk_izd :selected").val()
+                        },
+                        cache: false,
+                        async: false,
+                        success: function (data) {
+                            var result = $.parseJSON(data);
+                            window.open("/reports/download/?t=x&f=" + result);
+                        }
+                    });
+                })
 
                 /*$.ajax({
                     url: "/include/ajax/show_report_fields.php",
@@ -596,13 +674,15 @@ $(document).ready(function () {
                         cache: false,
                         async: false,
                         beforeSend: function(){
-                            $("#empty_list_loading").removeAttr('hidden');
-                            $(".report-control").attr('disabled','disabled');
+                            //$("#empty_list_loading").removeAttr('hidden');
+                            //$(".report-control").attr('disabled','disabled');
                         },
                         success: function(data){
                             var result = $.parseJSON(data);
-                            $(".build-step2").hide(300);
-                            $(".build-step3").removeClass("hidden");
+
+                            $(".build-step3").removeClass("hide");
+                            $("#summTable").removeClass("hide");
+                            $("#empty_list_loading").css("display", "none");
 
                             switch (BDG_GROUP) {
                                 case "1":
@@ -624,8 +704,8 @@ $(document).ready(function () {
                                     html += "<td><b>Итого: </b></td>";
                                     html += "<td><b>" + total + "</b></td>";
                                     html += "</tr>";
-
-                                    $("#summTable").append(html);
+                                    $("#summTable").empty().append(html);
+                                    $("#rpBudgetTitle").html("Суммарная стоимость заказов по муниципальным образованиям. Издательство: " + $("#bdg_izd :selected").text());
                                     break;
                                 case "2":
                                     var html = "";
@@ -649,7 +729,8 @@ $(document).ready(function () {
                                         })
                                     });
 
-                                    $("#summTable").append(html);
+                                    $("#summTable").empty().append(html);
+                                    $("#rpBudgetTitle").html("Суммарная стоимость заказов по муниципальным образованиям. Издательство: " + $("#bdg_izd :selected").text());
 
                                     var bookHtml = "";
                                     bookHtml = "<tr>";
@@ -663,7 +744,6 @@ $(document).ready(function () {
                                         $.each(schools, function (sname, info) {
                                             if (info["BOOKS"].length > 0)
                                                 $.each(info["BOOKS"], function (a, bookInfo) {
-                                                    console.log(bookInfo);
                                                     bookHtml += "<tr class='book_" + bookInfo["SCHOOL_ID"] + "'>";
                                                     bookHtml += "<td>" + bookInfo["AUTHOR"] + ", " + bookInfo["TITLE"] + ", " + bookInfo["CLASS"] + "</td>";
                                                     bookHtml += "<td>" + bookInfo["COUNT"] + "</td>";
@@ -674,7 +754,7 @@ $(document).ready(function () {
                                         });
                                     });
 
-                                    $("#bookInfoTable").append(bookHtml);
+                                    $("#bookInfoTable").empty().append(bookHtml);
 
                                     $("#summTable a").click(function (e) {
                                         e.preventDefault();

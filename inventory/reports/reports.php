@@ -10,15 +10,21 @@ if (!$USER->IsAuthorized()) LocalRedirect('/auth/');
 
 if (in_array(7, $USER->GetUserGroupArray())
     || in_array(6, $USER->GetUserGroupArray())
+    || in_array(8, $USER->GetUserGroupArray())
     || in_array(9, $USER->GetUserGroupArray())
     || in_array(1, $USER->GetUserGroupArray())) {
 
-    //echo "<pre>";
-
     $municipalityId = get_munID_list($USER->GetID());
 
-    foreach ($municipalityId as $key => $munID) {
+    if ($municipalityId === false) {
+        $schoolID = getSchoolID($USER->GetID());
 
+        $municipalityId = Array();
+
+        array_push($municipalityId, getMunIdBySchoolId($schoolID));
+    }
+
+    foreach ($municipalityId as $key => $munID) {
         $schools = get_schoolID_by_mun2($munID);
 
         $data = Array();

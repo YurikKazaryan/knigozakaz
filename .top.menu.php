@@ -47,7 +47,7 @@ $aMenuLinks = Array(
 		"/reports/build/", 
 		Array(), 
 		Array(), 
-		"CSite::InGroup(array(1,6,7,9))" 
+		"CSite::InGroup(array(1,6,7,8,9))" 
 	),
 	Array(
 		"Информация", 

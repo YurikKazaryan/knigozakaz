@@ -34,6 +34,7 @@ foreach ($data as $key => $row) {
     $reportFile->getActiveSheet()->setCellValueByColumnAndRow(4, $startRow, $row["OTV_FIO"]);
     $reportFile->getActiveSheet()->setCellValueByColumnAndRow(5, $startRow, $row["PHONE"]);
     $reportFile->getActiveSheet()->setCellValueByColumnAndRow(6, $startRow, $row["EMAIL"]);
+    $reportFile->getActiveSheet()->setCellValueByColumnAndRow(7, $startRow, $row["ORDER_COUNT"]);
 
     $startRow ++;
 }

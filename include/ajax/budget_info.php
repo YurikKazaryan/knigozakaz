@@ -11,12 +11,12 @@ define("NO_KEEP_STATISTIC", true);
 require($_SERVER["DOCUMENT_ROOT"]."/include/bav.php");
 
 if (CModule::IncludeModule("iblock")) {
-    $BDG_IZD = $_POST["BDG_IZD"];
+    $BDG_IZD = $_POST["BDG_IZD"] === "*" ? "" : $_POST["BDG_IZD"];
     $BDG_GROUP = $_POST["BDG_GROUP"];
 
     $regionList = get_munID_list($USER->GetID());
 
-    array_shift($regionList);
+    count($regionList) > 1 ? array_shift($regionList) :
 
     $arFilter = Array(
         "IBLOCK_ID" => 9,

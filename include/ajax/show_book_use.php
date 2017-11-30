@@ -22,13 +22,17 @@ if (CModule::IncludeModule("iblock")) {
     );
 
     $arSelectedFields = array(
-        "PROPERTY_SCHOOL_ID"
+        "PROPERTY_SCHOOL_ID",
+        "PROPERTY_COUNT"
     );
 
     $schools = CIBlockElement::GetList(false, $arFilter, false, false, $arSelectedFields);
 
-    while ($school = $schools->Fetch())
-        $data[$school["PROPERTY_SCHOOL_ID_VALUE"]] = getSchoolInfo($school["PROPERTY_SCHOOL_ID_VALUE"]);
+    while ($school = $schools->Fetch()) {
+        $schoolInfo = getSchoolInfo($school["PROPERTY_SCHOOL_ID_VALUE"]);
+        $schoolInfo["BOOK_COUNT"] = $school["PROPERTY_COUNT_VALUE"];
+        $data[$school["PROPERTY_SCHOOL_ID_VALUE"]] = $schoolInfo;
+    }
 
     foreach ($data as $schoolId => $info) {
         $response[$schoolId]["RAION"] = getRegionName(getMunIdBySchoolId($schoolId));
@@ -38,6 +42,7 @@ if (CModule::IncludeModule("iblock")) {
         $response[$schoolId]["OTV_FIO"] = $info["OTV_FIO"];
         $response[$schoolId]["PHONE"] = $info["PHONE"];
         $response[$schoolId]["EMAIL"] = $info["EMAIL"];
+        $response[$schoolId]["ORDER_COUNT"] = $info["BOOK_COUNT"];
     }
     echo json_encode($response);
 }

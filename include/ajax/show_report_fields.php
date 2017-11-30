@@ -18,22 +18,39 @@ if (CModule::IncludeModule("iblock")) {
 
     switch ($_POST["rpType"]) {
         case "rpOrders":
-            $propertiesArray = Array(24, 25, 33, 34, 76, 250, 257);
-            $properties = CIBlock::GetProperties(9, Array("NAME" => "ASC"), $arFilter);
-            while ($property = $properties->Fetch())
-                if (in_array($property["ID"], $propertiesArray))
-                    $data[$property["ID"]] = "Заказ: " . $property["NAME"];
-            $data[24] = "Заказ: Статус заказа";
-            $data[250] = "Заказ: Район";
-            $data[76] = "Учебник: Издательство";
-
-            $propertiesArray = Array(10, 232, 23, 15, 19, 22, 74);
+            /*$propertiesArray = Array("_10", "_232", "_23", "_15", "_19", "_22", "_74");
             $properties = CIBlock::GetProperties(5, Array("NAME" => "ASC"), $arFilter);
             while ($property = $properties->Fetch())
-                if (in_array($property["ID"], $propertiesArray))
-                    $data[$property["ID"]] = "Учебник: " . $property["NAME"];
-            $data[232] = "Учебник: Название";
-            //asort($data);
+                if (in_array("_" . $property["ID"], $propertiesArray))
+                    $data["_" . $property["ID"]] = "Учебник: " . $property["NAME"];
+            $data["_232"] = "Учебник: Название";*/
+
+            $data["_10"] = "Учебник: Автор";
+            $data["_232"] = "Учебник: Название";
+            $data["_23"] = "Учебник: Класс";
+            $data["_76"] = "Учебник: Издательство";
+            $data["_15"] = "Учебник: Код ФП";
+            $data["_19"] = "Учебник: Линия УМК";
+            $data["_22"] = "Учебник: Система";
+            $data["_19"] = "Учебник: Стандарт";
+
+            $data["_25"] = "Заказ: Школа";
+            $data["_24"] = "Заказ: Статус заказа";
+            $data["_33"] = "Заказ: Цена";
+            $data["_34"] = "Заказ: Количество";
+            $data["_SZ"] = "Заказ: Сумма заказа";
+            $data["_250"] = "Заказ: Район";
+            $data["_257"] = "Заказ: НДС";
+
+            /*$propertiesArray = Array("_24", "_25", "_33", "_34", "_76", "_250", "_257");
+            $properties = CIBlock::GetProperties(9, Array("NAME" => "ASC"), $arFilter);
+            while ($property = $properties->Fetch())
+                if (in_array("_" . $property["ID"], $propertiesArray))
+                    $data["_" . $property["ID"]] = "Заказ: " . $property["NAME"];
+            $data["_24"] = "Заказ: Статус заказа";
+            $data["_250"] = "Заказ: Район";*/
+            //$data["_76"] = "Учебник: Издательство";
+
             //$data[0] = "Список полей для заказов";
             break;
         case "rpInventory":

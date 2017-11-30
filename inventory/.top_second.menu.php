@@ -23,7 +23,7 @@ $aMenuLinks = Array(
     ),
 	Array(
 		"Отчеты", 
-		"/inventory/reports/reports.php",
+		"/reports/build/",
 		Array(), 
 		Array(), 
 		"" 

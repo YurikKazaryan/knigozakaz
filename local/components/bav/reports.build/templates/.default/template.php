@@ -37,12 +37,16 @@ $subjects = array(0 => "Все", 1 => "Алгебра", 2 => "Английски
         </div>
         <div class="panel-body">
             <ol class="list-group">
-                <li class="list-group-item" id="reportType" value="rpOrders" style="cursor: pointer">Отчёт по заказам (перечень)</li>
-                <li class="list-group-item" id="reportType" value="rpBudget" style="cursor: pointer">Отчёт по заказам (суммы)</li>
-                <!--<li class="list-group-item" id="reportType" value="rpInventory" style="cursor: pointer">Отчёт по инвентаризации</li>-->
-                <li class="list-group-item" id="reportType" value="rpSvod" style="cursor: pointer">Отчёт по книгообеспеченности</li>
-                <li class="list-group-item" id="reportType" value="rpUMK" style="cursor: pointer">Анализ УМК</li>
-                <li class="list-group-item" id="reportType" value="rpEmpty" style="cursor: pointer">Перечень "Пустых" школ</li>
+                <? if (!in_array(8, $USER->GetUserGroupArray())) {?>
+                    <li class="list-group-item" id="reportType" value="rpOrders" style="cursor: pointer">Отчёт по заказам (перечень)</li>
+                    <li class="list-group-item" id="reportType" value="rpBudget" style="cursor: pointer">Отчёт по заказам (суммы)</li>
+                    <!--<li class="list-group-item" id="reportType" value="rpInventory" style="cursor: pointer">Отчёт по инвентаризации</li>-->
+                    <li class="list-group-item" id="reportType" value="rpSvod" style="cursor: pointer">Отчёт по книгообеспеченности</li>
+                    <li class="list-group-item" id="reportType" value="rpUMK" style="cursor: pointer">Анализ УМК</li>
+                    <li class="list-group-item" id="reportType" value="rpEmpty" style="cursor: pointer">Перечень "Пустых" школ</li>
+                <?} else { ?>
+                    <li class="list-group-item" id="reportType" value="rpSvod" style="cursor: pointer">Отчёт по книгообеспеченности</li>
+                <?}?>
             </ol>
         </div>
     </div>
@@ -89,8 +93,9 @@ $subjects = array(0 => "Все", 1 => "Алгебра", 2 => "Английски
             <div class="form-group" id="budgetIzd" hidden>
                 <label>Выберите издательство</label>
                 <select class="form-control report-control" name="BDG_IZD" id="bdg_izd">
+                    <option value="*">Все</option>
                     <?foreach ( $arIzd as $izdId => $izdName) :?>
-                        <option value="<?=$izdId?>"><?=$izdName?></option>
+                        <option value="<?=$izdId?>"><?=htmlspecialchars($izdName)?></option>
                     <?endforeach;?>
                 </select>
                 <label>Сгруппировать</label>
@@ -100,15 +105,16 @@ $subjects = array(0 => "Все", 1 => "Алгебра", 2 => "Английски
                 </select>
             </div>
         </div>
-        <div class="center-block">
+        <div class="center-block bx-help-center panel-footer">
             <input type="button" name="selectAll" class="btn btn-success" value="Выделить все" id="selectAllFields"/>
-            <input type="button" name="step3" class="btn btn-primary" value="Далее"/>
+            <input type="button" name="step3" class="btn btn-primary" value="Сформировать"/>
         </div>
     </div>
 </div>
-<div class="build-step3 hidden">
+<div class="build-step3 hide">
     <div class="panel panel-info">
         <div class="panel-heading">
+            <span id="rpBudgetTitle"></span>
             <div class="form-group" id="umk_book_div" hidden>
                 <label>Выберите учебник</label>
                 <select class="form-control report-control" name="UMK_BOOK" id="umk_book">
@@ -116,16 +122,18 @@ $subjects = array(0 => "Все", 1 => "Алгебра", 2 => "Английски
             </div>
         </div>
         <div class="panel-body">
-            <table id="dataTable"></table>
-            <table id="summTable" class="table table-striped table-hover"></table>
-            <div id="jqGridPager"></div>
-            <button id="export" class="btn btn-default">Экспорт в Excel</button>
-            <div id="response"></div>
+            <table id="dataTable" class="table table-striped table-hover hide"></table>
+            <table id="summTable" class="table table-striped table-hover hide"></table>
+            <div id="jqGridPager" class="hide"></div>
+            <div id="response" class="hide"></div>
+        </div>
+        <div class="panel-footer">
+            <button id="export" class="btn btn-default hide">Экспорт в Excel</button>
         </div>
     </div>
 </div>
 <div class="modal fade" id="bookInfoModal" tabindex="-1" role="dialog" aria-labelledby="bookInfoModalLabel">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog1" role="document">
         <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -141,6 +149,20 @@ $subjects = array(0 => "Все", 1 => "Алгебра", 2 => "Английски
     </div>
 </div>
 
-
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="errorModalLabel">Ошибка в ответе от сервера</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
