@@ -41,8 +41,9 @@ $(document).ready(function () {
 
                         $(".build-step1").hide(300);
                         $(".build-step2").removeClass("hidden");
+                        $("#izdOrders").removeClass("hide");
 
-                        $(".build-step2 .panel-body").html(html);
+                        $(".build-step2 #fieldsList").html(html);
 
                         $("#selectAllFields").click(function () {
                             if ($(this).attr("name") === "selectAll") {
@@ -91,7 +92,8 @@ $(document).ready(function () {
 
                                 $.getJSON("/include/ajax/draw_report.php", {
                                     "fieldIds": properties,
-                                    "rpType": rpType
+                                    "rpType": rpType,
+                                    "IZD": $("#order_izd :selected").val()
                                 }, function (response) {
                                     var gridArrayData = [];
                                     //console.log(response);
@@ -104,28 +106,30 @@ $(document).ready(function () {
 
                                     $("#dataTable").jqGrid('filterToolbar',
                                         {
-                                            autosearch: true,
+                                            autoSearch: true,
                                             stringResult: true,
                                             searchOnEnter: true,
+                                            ignoreCase: true,
+                                            defaultSearch: "cn"
+
                                         }
                                     );
 
                                     $("#rpBudgetTitle").html("Перечень заказов муниципальных образований");
 
                                     $("#export").removeClass("hide");
-
-                                    $("#export").on("click", function () {
-                                        $("#dataTable").jqGrid("exportToExcel", {
-                                            includeLabels: true,
-                                            includeGroupHeader: true,
-                                            includeFooter: false,
-                                            fileName: "orderData.xlsx"
-                                        })
-                                    })
                                 }).fail(function (e) {
                                     console.log(e);
                                 });
                             }
+                        })
+                        $("#export").on("click", function () {
+                            $("#dataTable").jqGrid("exportToExcel", {
+                                includeLabels: true,
+                                includeGroupHeader: true,
+                                includeFooter: false,
+                                fileName: "orderData.xlsx"
+                            })
                         })
                     },
                     error: function () {
@@ -256,7 +260,7 @@ $(document).ready(function () {
                         $("input[name=selectAll]").prop("value", "Убрать выделение");
                         $("input[name=selectAll]").prop("name", "deselectAll");
 
-                        $(".build-step2 .panel-body").html(html);
+                        $(".build-step2 #fieldsList").html(html);
 
                         $("#selectAllFields").click(function () {
                             if ($(this).attr("name") === "selectAll") {

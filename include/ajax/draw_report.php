@@ -13,6 +13,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/include/bav.php");
 if (CModule::IncludeModule("iblock")) {
     $fieldIDs = $_GET["fieldIds"];
     $rpType = $_GET["rpType"];
+    $izd = $_GET["IZD"];
 
     $data2 = Array();
 
@@ -51,10 +52,9 @@ if (CModule::IncludeModule("iblock")) {
             }
 
             foreach ($schoolList as $key => $schoolId) {
-                if (isset($arSelectedFields)) $dataOrder1["PROPERTY_250_VALUE"] = $key;
-
                 $arFilter = Array(
                     "PROPERTY_SCHOOL_ID" => $schoolId,
+                    "PROPERTY_IZD_ID" => $izd,
                     "IBLOCK_ID" => 9,
                     "!PROPERTY_STATUS" => ["osreport", "osrepready", "oscart"]
                 );
@@ -68,6 +68,7 @@ if (CModule::IncludeModule("iblock")) {
                             "ID" => $dataOrder["PROPERTY_249_VALUE"]
                         );
 
+                        if (isset($arSelectedFields)) $dataOrder["PROPERTY_250_VALUE"] = $key;
                         if (isset($dataOrder["PROPERTY_24_VALUE"])) $dataOrder["PROPERTY_24_VALUE"] = getStatusName($dataOrder["PROPERTY_24_VALUE"]);
                         if (isset($dataOrder["PROPERTY_25_VALUE"])) $dataOrder["PROPERTY_25_VALUE"] = get_school_name_by_id($dataOrder["PROPERTY_25_VALUE"]);
                         if (isset($dataOrder["PROPERTY_76_VALUE"])) $dataOrder["PROPERTY_76_VALUE"] = get_izd_name($dataOrder["PROPERTY_76_VALUE"]);

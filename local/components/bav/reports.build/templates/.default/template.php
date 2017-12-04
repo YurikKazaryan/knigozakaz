@@ -58,6 +58,16 @@ $subjects = array(0 => "Все", 1 => "Алгебра", 2 => "Английски
             Шаг 2. Выберите поля для отображения
         </div>
         <div class="panel-body">
+            <div id="fieldsList"></div>
+            <div class="form-group hide" id="izdOrders">
+                <hr/>
+                <label>Выберите издательство</label>
+                <select class="form-control report-control" name="ORDER_IZD" id="order_izd">
+                    <?foreach ( $arIzd as $izdId => $izdName) :?>
+                        <option value="<?=$izdId?>"><?=$izdName?></option>
+                    <?endforeach;?>
+                </select>
+            </div>
             <div class="form-group" id="workPeriod" hidden>
                 <label>Отчётный период</label>
                 <select class="form-control report-control" name="PERIOD_EMPTY" id="period_empty">

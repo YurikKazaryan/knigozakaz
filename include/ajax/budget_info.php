@@ -16,7 +16,13 @@ if (CModule::IncludeModule("iblock")) {
 
     $regionList = get_munID_list($USER->GetID());
 
-    count($regionList) > 1 ? array_shift($regionList) :
+    $delete = getUserRegion($USER->GetID());
+
+    $regionList = array_flip($regionList);
+
+    unset($regionList[$delete]);
+
+    $regionList = array_flip($regionList);
 
     $arFilter = Array(
         "IBLOCK_ID" => 9,
@@ -31,14 +37,15 @@ if (CModule::IncludeModule("iblock")) {
     );
 
     foreach ($regionList as $key => $regionId) {
-        $arFilter["PROPERTY_SCHOOL_ID"] = get_schoolID_by_mun2($regionId);
+        $arFilter["PROPERTY_SCHOOL_ID"] = get_schoolID_by_mun($regionId);
+        $arFilter["IBLOCK_ID"] = 9;
 
         isset($arFilter["PROPERTY_SCHOOL_ID"]) ? : $arFilter["PROPERTY_SCHOOL_ID"] = Array(-1);
-
         $orders = CIBlockElement::GetList(false, $arFilter, false, false, $arSelectedFields);
 
-        while ($order = $orders->Fetch())
+        while ($order = $orders->Fetch()) {
             $data[$regionId][$order["PROPERTY_SCHOOL_ID_VALUE"]][] = $order;
+        }
     }
 
     switch ($BDG_GROUP) {
