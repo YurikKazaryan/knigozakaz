@@ -100,7 +100,6 @@ $(document).ready(function(){
 		$('#bookIDPurchase_YC').val(i);
 		i ++;
 	});
-
 });
 
 function testAddButtonPurchase() {
@@ -134,6 +133,26 @@ function addBookModal(bookID) {
 			alert('Ajax error');
 		}
 	});
+
+    $.ajax({
+        url: "/include/ajax/get_classes.php",
+        method: "POST",
+        data: {},
+        cache: false,
+        async: false,
+        success: function (data) {
+            var result = $.parseJSON(data);
+            var html = "";
+            
+            $.each(result, function (a, classs) {
+				html += "<label class='form-check-label'><input type='checkbox' name='usedInClass[]' class='form-check-input' value='"
+					+ classs + "'>" + classs + "</label><br />";
+            });
+
+			$("#checkboxGroup").empty().append(html);
+        }
+    });
+
 	$('#addBookModal').modal();
 }
 

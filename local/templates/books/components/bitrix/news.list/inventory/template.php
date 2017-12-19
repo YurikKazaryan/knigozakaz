@@ -77,7 +77,7 @@ $this->setFrameMode(true);
 				<th>Данные об учебном пособии</th>
 				<th width="60">Год<br>приобр.</th>
 				<th width="60">Кол-во</th>
-				<!--<th width="140">Использование</th>-->
+				<th width="140">Используется в классах</th>
 				<th>Прим.</th>
 				<th width="90">Опции</th>
 			</tr>
@@ -87,6 +87,7 @@ $this->setFrameMode(true);
             <? foreach ($arResult["ITEMS"] as $arItem) {
                 $props['YEAR_PURCHASE'] = $arItem['PROPERTIES']['YEAR_PURCHASE']['VALUE'];
                 $props['COUNT'] = $arItem['PROPERTIES']['COUNT']['VALUE'];
+                $props['USE_IN_CLASS'] = $arItem['PROPERTIES']['USE_IN_CLASS']['VALUE'];
                 $props['EDIT_LINK'] = $arItem['EDIT_LINK'];
                 $props['DELETE_LINK'] = $arItem['DELETE_LINK'];
                 $props['ID'] = $arItem['ID'];
@@ -97,7 +98,7 @@ $this->setFrameMode(true);
             };
 			foreach($tmp as $book_id => $items):?>
                 <tr class="news-item clickable" id="<?=$book_id?>" style="cursor: pointer">
-                    <td class="text-left pointed" colspan="4">
+                    <td class="text-left pointed" colspan="5">
                         <?=$arResult['BOOKS'][$book_id]['FULL_NAME']?>
                     </td>
                     <td class="text-center" style="vertical-align: middle" id="total_count<?=$book_id?>">
@@ -117,6 +118,9 @@ $this->setFrameMode(true);
                         </td>
                         <td class="text-center">
                             <?=$arItem['COUNT']?>
+                        </td>
+                        <td class="text-center">
+                            <?=$arItem['USE_IN_CLASS']?>
                         </td>
                         <td>
                             <?if ($arItem['REM']):?>
@@ -187,6 +191,14 @@ $this->setFrameMode(true);
 								Количество должно быть больше 0!
 							</div>
 						</div>
+                        <br />
+                        <div class="form-group">
+                            <label>Используется в классах:</label>
+                            <div id="checkboxGroup"></div>
+                            <div class="alert alert-danger" hidden id="classuseAlert">
+                                Укажите в каком классе используется учебник!
+                            </div>
+                        </div>
 						<!--<div class="form-group">
 							<label><?=$arResult['CURRENT_PERIOD']?>: используется?&nbsp;</label>
 							<select class="form-control" name="CURRENT_USE" id="editUseCurrPurchase">

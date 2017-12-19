@@ -31,6 +31,7 @@ if($invID && CModule::IncludeModule('iblock')) {
 			'PROPERTY_YEAR_PURCHASE',
 			'PROPERTY_COUNT',
 			'PROPERTY_REM',
+			'PROPERTY_USE_IN_CLASS'
 			//'PROPERTY_USE_NEXT',
 			//'PROPERTY_USE_' . $arTemp['ID']
 		)
@@ -40,6 +41,7 @@ if($invID && CModule::IncludeModule('iblock')) {
 		$result['year_purchase'] = $arFields['PROPERTY_YEAR_PURCHASE_VALUE'];
 		$result['count'] = $arFields['PROPERTY_COUNT_VALUE'];
 		$result['rem'] = $arFields['PROPERTY_REM_VALUE']['TEXT'];
+		$result['use_in_class'] = $arFields['PROPERTY_USE_IN_CLASS_VALUE'];
 		//$result['use_next'] = ($arFields['PROPERTY_USE_NEXT_VALUE'] == 'Y' ? 'Y' : 'N');
 		//$result['use_curr'] = ($arFields['PROPERTY_USE_' . $arTemp['ID'] . '_VALUE'] == 'Y' ? 'Y' : 'N');
 		$result['error'] = 0;

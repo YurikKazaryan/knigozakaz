@@ -10,54 +10,78 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 ?>
 <div class="pupil">
     <div class="panel panel-info">
-        <div class="panel-heading">Количество учеников по классам</div>
+        <div class="panel-heading">Количество учеников по классам (РАЗДЕЛ В ДОРАБОТКЕ!)</div>
         <div class="panel-body">
-            <form class="form col-xs-4">
-                <div class="form-group">
-                    <label>1 класс</label>
-                    <input class="form-control" type="text" id="K1"/>
+            <table class="table table-striped table-hover" id="classTable">
+                <thead>
+                <tr>
+                    <td>Класс</td>
+                    <td>Количество учеников</td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer">
+            <input type="button" class="btn btn-success" name="addPupil" value="Добавить данные" />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addClassModal" tabindex="-1" role="dialog" aria-labelledby="addClassModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addBookModalLabel">Добавить класс</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Класс</label>
+                        <input class="form-control" name="CLASS" id="classs">
+                        <div class="alert alert-danger" hidden id="classAlert">
+                            Укажите номер класса!
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Литера</label>
+                        <input class="form-control" name="LETTER" id="letter">
+                        <div class="alert alert-danger" hidden id="letterAlert">
+                            Укажите литеру (одну!) класса!
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Количество учеников</label>
+                        <input class="form-control" name="PUPILCOUNT" id="pupilCount">
+                        <div class="alert alert-danger" hidden id="pupilCountAlert">
+                            Укажите количество учеников в классе!
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-success" name="savePupil" value="Сохранить данные"/>
+                <input type="button" class="btn btn-success" name="editPupil" hidden value="Сохранить данные"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addError" tabindex="-1" role="dialog" aria-labelledby="addErrorLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addBookModalLabel">Добавление информации об учениках</h4>
                 </div>
-                <div class="form-group">
-                    <label>2 класс</label>
-                    <input class="form-control" type="text" id="K2"/>
+                <div class="modal-body">
                 </div>
-                <div class="form-group">
-                    <label>3 класс</label>
-                    <input class="form-control" type="text" id="K3"/>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                 </div>
-                <div class="form-group">
-                    <label>4 класс</label>
-                    <input class="form-control" type="text" id="K4"/>
-                </div>
-                <div class="form-group">
-                    <label>5 класс</label>
-                    <input class="form-control" type="text" id="K5"/>
-                </div>
-                <div class="form-group">
-                    <label>6 класс</label>
-                    <input class="form-control" type="text" id="K6"/>
-                </div>
-                <div class="form-group">
-                    <label>7 класс</label>
-                    <input class="form-control" type="text" id="K7"/>
-                </div>
-                <div class="form-group">
-                    <label>8 класс</label>
-                    <input class="form-control" type="text" id="K8"/>
-                </div>
-                <div class="form-group">
-                    <label>9 класс</label>
-                    <input class="form-control" type="text" id="K9"/>
-                </div>
-                <div class="form-group">
-                    <label>10 класс</label>
-                    <input class="form-control" type="text" id="K10"/>
-                </div>
-                <div class="form-group">
-                    <label>11 класс</label>
-                    <input class="form-control" type="text" id="K11"/>
-                </div>
-                <button type="button" class="btn btn-primary" id="savePupil">Сохранить значения</button>
             </form>
         </div>
     </div>

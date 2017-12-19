@@ -43,7 +43,8 @@ if (in_array(1, $USER->GetUserGroupArray())) {
                         $arFields['ID'],
                         25,
                         array(
-                            'COUNT' => intval($arFields['PROPERTY_COUNT_VALUE']) + intval($_POST['COUNT' . $i])
+                            'COUNT' => intval($arFields['PROPERTY_COUNT_VALUE']) + intval($_POST['COUNT' . $i]),
+                            'USE_IN_CLASS' => implode(",", $_POST["usedInClass"])
                             //'USE_' . $arTemp['ID'] => ($_POST['CURRENT_USE'] == 'Y' ? 'Y' : 'N'),
                             //'USE_NEXT' => ($_POST['NEXT_USE'] == 'Y' ? 'Y' : 'N')
                         )
@@ -64,6 +65,7 @@ if (in_array(1, $USER->GetUserGroupArray())) {
                             'YEAR_PURCHASE' => $_POST['YEAR_PURCHASE' . $i],
                             'COUNT' => intval($_POST['COUNT' . $i]),
                             'REM' => trim($_POST['REMARKS']),
+                            'USE_IN_CLASS' => implode(",", $_POST["usedInClass"])
                             //'USE_' . $arTemp['ID'] => ($_POST['CURRENT_USE'] == 'Y' ? 'Y' : 'N'),
                             //'USE_NEXT' => ($_POST['NEXT_USE'] == 'Y' ? 'Y' : 'N')
                         )
@@ -94,6 +96,7 @@ if (in_array(1, $USER->GetUserGroupArray())) {
                     'YEAR_PURCHASE' => $_POST['YEAR_PURCHASE'],
                     'COUNT' => $_POST['COUNT'],
                     'REM' => $_POST['REMARKS'],
+                    'USE_IN_CLASS' => implode(',', $_POST['usedInClass'])
                     //'USE_NEXT' => $_POST['NEXT_USE'],
                     //'USE_' . $arTemp['ID'] => $_POST['CURRENT_USE']
                 )

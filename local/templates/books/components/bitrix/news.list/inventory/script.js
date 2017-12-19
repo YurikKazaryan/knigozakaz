@@ -158,6 +158,31 @@ function edit_inv_book(invID, bookID) {
 							$('#editRemPurchase').val(inv_result.rem);
 							$('#editUseCurrPurchase').val(inv_result.use_curr);
 							$('#editUseNextPurchase').val(inv_result.use_next);
+                            $.ajax({
+                                url: "/include/ajax/get_classes.php",
+                                method: "POST",
+                                data: {},
+                                cache: false,
+                                async: false,
+                                success: function (data) {
+                                    var result = $.parseJSON(data);
+                                    var html = "";
+
+                                    $.each(result, function (a, classs) {
+                                    	var classes = inv_result.use_in_class;
+                                    	classes = classes.split(',');
+                                    	if (classes.indexOf(classs) > -1)
+                                    		html += "<label class='form-check-label'><input type='checkbox' checked name='usedInClass[]' class='form-check-input' value='"
+                                            + classs + "'>" + classs + "</label><br />";
+                                    	else
+                                            html += "<label class='form-check-label'><input type='checkbox' name='usedInClass[]' class='form-check-input' value='"
+                                                + classs + "'>" + classs + "</label><br />";
+                                    });
+
+                                    $("#checkboxGroup").empty().append(html);
+                                }
+                            });
+							console.log(inv_result.use_in_class);
 						} else {
 							alert('Не найдена инвентаризация с кодом ' + invID);
 						}

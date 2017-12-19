@@ -171,20 +171,14 @@
 								Количество должно быть больше 0!
 							</div>
 						</div>
-						<!--<div class="form-group">
-							<label><?=$arResult['WORK_PERIOD']?>: используется?&nbsp;</label>
-							<select class="form-control" name="CURRENT_USE">
-								<option value="Y">Да</option>
-								<option value="N" selected>Нет</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label>Будущий учебный год: планируется использование?&nbsp;</label>
-							<select class="form-control" name="NEXT_USE">
-								<option value="Y">Да</option>
-								<option value="N" selected>Нет</option>
-							</select>
-						</div>-->
+                        <br />
+                        <div class="form-group">
+                            <label>Используется в классах:</label>
+                            <div id="checkboxGroup"></div>
+                            <div class="alert alert-danger" hidden id="classuseAlert">
+                                Укажите в каком классе используется учебник!
+                            </div>
+                        </div>
 						<br><label>Примечания</label><br>
 						<textarea class="form-control" style="width:100%" name="REMARKS"></textarea>
 					</div>

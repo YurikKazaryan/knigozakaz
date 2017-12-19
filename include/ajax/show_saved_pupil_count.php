@@ -11,15 +11,21 @@ define("NO_KEEP_STATISTIC", true);
 require($_SERVER["DOCUMENT_ROOT"]."/include/bav.php");
 
 if (CModule::IncludeModule("iblock")) {
-    $arFilter = array("IBLOCK_ID" => 37, "NAME" => get_schoolID($USER->GetID()));
-    $el = CIBlockElement::GetList(Array("ID" => "DESC"), $arFilter, false, Array("nTopCount" => 1))->Fetch();
+    $arFilter = array(
+        "IBLOCK_ID" => 37,
+        "NAME" => get_schoolID($USER->GetID()),
+        "PROPERTY_272" => "%"
+    );
 
-    $el = $el["ID"];
+    $arSelectedFields = array(
+        "ID",
+        "PROPERTY_272"
+    );
 
-    $properties = CIBlockElement::GetProperty(37, $el);
+    $countInfos = CIBlockElement::GetList(false, $arFilter, false, false, $arSelectedFields);
 
-    while ($result = $properties->GetNext())
-        $prop[$result["CODE"]] = $result["VALUE"];
+    while ($countInfo = $countInfos->Fetch())
+        $prop[$countInfo["ID"]] = $countInfo["PROPERTY_272_VALUE"];
 
     echo json_encode($prop);
 

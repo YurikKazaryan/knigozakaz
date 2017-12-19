@@ -111,7 +111,6 @@ $(document).ready(function () {
                                             searchOnEnter: true,
                                             ignoreCase: true,
                                             defaultSearch: "cn"
-
                                         }
                                     );
 
@@ -322,15 +321,18 @@ $(document).ready(function () {
                                     //$(".build-step2").hide(300);
                                     $(".build-step3").removeClass("hide");
                                     $("#dataTable").removeClass("hide");
+                                    $("#jqGridPager").removeClass("hide");
 
                                     $("#dataTable").jqGrid('setGridParam', {data: gridArrayData});
                                     $("#dataTable").trigger('reloadGrid');
 
                                     $("#dataTable").jqGrid('filterToolbar',
                                         {
-                                            autosearch: true,
+                                            autoSearch: true,
                                             stringResult: true,
                                             searchOnEnter: true,
+                                            ignoreCase: true,
+                                            defaultSearch: "cn"
                                         }
                                     );
 
